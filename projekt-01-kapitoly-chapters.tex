@@ -1,20 +1,56 @@
 %=========================================================================
 % (c) Michal Bidlo, Bohuslav Křena, 2008
-% !TeX spellcheck = en_US
+
 \chapter{Introduction}
-Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. But when it comes to usability, the most crucial feature might be speed.
+Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Whole businesses are being build around it. But as data centers grows, importance of management tools grows.
 
 \chapter{oVirt}
-Ovirt is Open Source virtualization management tool created by Red Hat. It provides highly scalable centralized management of virtual hosts, virtual machines, storage and networking infrastructure.
+oVirt is Open Source virtualization management tool created by Red Hat. It provides highly scalable centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. Ovirt platform consists of two main parts - at least one oVirt engine and one or more oVirt nodes.
 
-\section{Cluster}
-\section{Template}
-\section{Virtual Machine}
+\section{oVirt engine}
+oVirt engine represents the part where all management features resides. Backend is written in Java, from frontend perspective it offers multiple ways to manage virtual datacenters.
+
+\subsection{Administration portal}
+Administration portal is web based tool able to manage all available resources with user management, permissions and monitoring. 
+
+\subsection{User Portal}
+More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols Spice and VNC. User has only access to virtual machines and resources which was allocated to him by administrator.
+
+\subsection{REST API}
+External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt Rest API supports both XML and JSON formats and it will be crucial part of development part described in this document.
+
+\section{oVirt node}
+Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora on Centos with enabled KVM hypervisor and VDSM(Virtual Desktop and Server Manager) daemon. VDSM deamon has control of all available resources including storage, networking and virtual machines. It is also responsible for reporting all actions to engine.
+
+\section{Ovirt Entities}
+Next few sections will be focused on explanation if oVirt entities important for this thesis.
+
+\subsection{Cluster}
+Cluster represents logical group of virtual machines sharing the same storage domain and have the same CPU architecture of CPU family.
+
+\subsection{Template}
+
+
+\subsection{Virtual Machine}
 
 \chapter{Description of chosen tools}
 
 \section{React}
 \section{Redux}
+In the world of single page web applications, requirements to manage state have become increasingly complicated. As application gains more complexity, more ui elements and complicated api calls we can easily end up in a loop of events which source may be very hard to find. Of course there will be effort to make it right but it results to even more conditional event handling, thus creating flaws harder to reveal. This is where Redux shines.
+
+Redux is represented as read-only tree of states called store. Every piece of data in store describes current state of application. Only way to change the state is to dispatch the action. Actions are predefined pure functions, therefore we can easily predict actual change of state just from knowing dispatched action.
+
+Actions are processed by pure functions called reducers. Reducer takes the current state and the action and returns a new state without mutation if previous state. Because reducers are only functions, we are able to achieve specific state by dispatching right actions in right order.
+
+This leads us to conclusion that success of Redux is given thanks to tree principles:
+\begin{enumerate}
+\item Single store of truth -- whole application state is stored within single tree
+\item Store is read-only -- the only way to make a change is to dispatch an object describing the change(action)
+\item Changes are made by pure functions -- reducers 
+\end{enumerate}
+
+\section{Redux-devtools}
 \section{Redux-saga}
 \section{ImmutableJS}
 \section{PatternFly}
