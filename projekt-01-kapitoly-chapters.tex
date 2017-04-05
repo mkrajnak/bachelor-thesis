@@ -2,7 +2,17 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Whole businesses are being build around it. But as data centers grows, importance of management tools grows.
+Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies making this area even more competitive. As datacenters grow there are several aspects that need to be considered when choosing the most suitable solution.
+
+Ovirt provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools. 
+
+Nowadays the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machine and templates. Each of those entities has huge number of fields that might are in relation with one another. This points to fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields. 
+
+Redux is technology designed especially for state management of applications. There are some recommendations not to use redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
+
+Redux is amazing for managing application state but it lacks ways to present data to user. Data stored in Redux store will be properly rendered by custom React components. React itself has mechanisms to manage state of components but as our application expands, enormous number of components may cause problems which lead to birth of Redux. Consistent styling of components are going to be delivered by Patternfly. 
+
+ 
 
 \chapter{oVirt}
 oVirt is Open Source virtualization management tool created by Red Hat. It provides highly scalable centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. Ovirt platform consists of two main parts - at least one oVirt engine and one or more oVirt nodes.
@@ -41,9 +51,7 @@ In the world of single page web applications, requirements to manage state have 
 
 Redux is represented as read-only tree of states called store. Every piece of data in store describes current state of application. Only way to change the state is to dispatch the action. Actions are predefined pure functions, therefore we can easily predict actual change of state just from knowing dispatched action.
 
-Actions are processed by pure functions called reducers. Reducer takes the current state and the action and returns a new state without mutation if previous state. Because reducers are only functions, we are able to achieve specific state by dispatching right actions in right order.
-
-This leads us to conclusion that success of Redux is given thanks to tree principles:
+Actions are processed by pure functions called reducers. Reducer takes the current state and the action and returns a new state without mutation if previous state. Because reducers are only functions, we are able to achieve specific state by dispatching right actions in right order. This leads us to conclusion that success of Redux is given thanks to tree principles:
 \begin{enumerate}
 \item Single store of truth -- whole application state is stored within single tree
 \item Store is read-only -- the only way to make a change is to dispatch an object describing the change(action)
