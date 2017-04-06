@@ -2,17 +2,16 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies making this area even more competitive. As datacenters grow there are several aspects that need to be considered when choosing the most suitable solution.
+Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies is making this area even more competitive. As datacenters grow there are several aspects that need to be considered when choosing the most suitable solution.
 
 Ovirt provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools. 
 
-Nowadays the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machine and templates. Each of those entities has huge number of fields that might are in relation with one another. This points to fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields. 
+Nowadays the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machines and templates. Each of those entities has huge number of fields that might be in relation with one another. The challange is to make dialogs quick, responsive and force the to always provide valid data. This points to fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields.
 
-Redux is technology designed especially for state management of applications. There are some recommendations not to use redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
+Redux is technology designed especially for state management of React applications. There are some recommendations not to use Redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
 
-Redux is amazing for managing application state but it lacks ways to present data to user. Data stored in Redux store will be properly rendered by custom React components. React itself has mechanisms to manage state of components but as our application expands, enormous number of components may cause problems which lead to birth of Redux. Consistent styling of components are going to be delivered by Patternfly. 
+Redux is amazing for managing application state but it lacks ways to present data to user. Data stored in Redux store will be properly rendered by custom React components. React itself has mechanisms to manage state of components but as our application expands, enormous number of components may cause problems which lead to birth of Redux. This project is developed with Open Source spirit and so the design delivered by Patternfly library.
 
- 
 
 \chapter{oVirt}
 oVirt is Open Source virtualization management tool created by Red Hat. It provides highly scalable centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. Ovirt platform consists of two main parts - at least one oVirt engine and one or more oVirt nodes.
@@ -26,26 +25,46 @@ Administration portal is web based tool able to manage all available resources w
 \subsection{User Portal}
 More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols Spice and VNC. User has only access to virtual machines and resources which was allocated to him by administrator.
 
-\subsection{REST API}
+\subsection{Rest API}
 External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt Rest API supports both XML and JSON formats and it will be crucial part of development part described in this document.
 
 \section{oVirt node}
 Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora on Centos with enabled KVM hypervisor and VDSM(Virtual Desktop and Server Manager) daemon. VDSM deamon has control of all available resources including storage, networking and virtual machines. It is also responsible for reporting all actions to engine.
 
 \section{Ovirt Entities}
-Next few sections will be focused on explanation if oVirt entities important for this thesis.
+Data managed by oVirt are structured to objects known as entities. Next few sections are focused on explanation of oVirt entities important for this thesis.
 
-\subsection{Cluster}
-Cluster represents logical group of virtual machines sharing the same storage domain and have the same CPU architecture of CPU family.
+\textbf{Cluster} is logical group of virtual machines sharing the same storage domain and have the same CPU architecture of CPU family.
 
-\subsection{Template}
+\textbf{Template} represents a copy of virtual machine. This functionality is very valuable especially in cases when you need to repeatedly create bigger amount of virtual machines with same of similar properties. Template also holds the information about hardware and software configurations of derived virtual machine. Once a virtual machine based on certain template is created, template cannot be removed while the virtual machine exists in the environment. 
+
+\textbf{Virtual Machine} can be explain as actual computer system running in emulated environment and providing as much functionality as actual physical compute would provide.
+
+\textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. Ovirt usually has multiple host machines that are able to run as many virtual machines as resources low.
 
 
-\subsection{Virtual Machine}
-
-\chapter{Description of chosen tools}
+\chapter{Javascript Technologies}
 
 \section{React}
+React is Open Source Javacript library dedicated to user interfaces. Application is divided to simpler components and each one of them is managing its own state. Components are built with emphasis on re-usability. Features like component nesting and conditional rendering allow us to make user interface modular and easier to maintain.
+
+\noident There are two types of React components:
+\begin{enumerate}
+\item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions but \texttt{React.Component} class with only \texttt{render()} function is solution as well.
+
+\item \textbf{State-full components} provide full state management with option to use component life-cycle methods. Any change of state will cause re-invoking of texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in constructor.
+\end{enumerate}
+
+Typical React work-flow is to create state-full component containing multiple stateless components and pass them data via \texttt{props}. Good practice is to define \texttt{PropTypes} to make sure that correct data types are being passed to our component and even \texttt{DefaultProps} which will be used is case that value is not defined in \texttt{props}. 
+
+\subsection{JSX} is an Javascript extension recommended to be used with React. It looks like actual HTML with dynamic data from React variables. JSX has series of huge advantages:
+\begin{itemize}
+\item faster writing of HTML templates and better understanding of what will actually be rendered
+\item there is an optimization while code is being compiler to Javascript so it is faster 
+\item it is type-safe so most of the errors will be detected during compilation
+\end{itemize}  
+But there is also a small limitations, since XML tag attributes like \texttt{class} and \texttt{for} are Javascript keywords, they need to be replaced with \texttt{className} and \texttt{htmlFor} respectively. 
+
 \section{Redux}
 In the world of single page web applications, requirements to manage state have become increasingly complicated. As application gains more complexity, more ui elements and complicated api calls we can easily end up in a loop of events which source may be very hard to find. Of course there will be effort to make it right but it results to even more conditional event handling, thus creating flaws harder to reveal. This is where Redux shines.
 
@@ -58,10 +77,12 @@ Actions are processed by pure functions called reducers. Reducer takes the curre
 \item Changes are made by pure functions -- reducers 
 \end{enumerate}
 
+
 \section{Redux-devtools}
 \section{Redux-saga}
 \section{ImmutableJS}
 \section{PatternFly}
+Group of designers and open source enthusiasts have gathered together and created set of practices for building user interfaces of enterprise web applications. All requirements for modern UI is covered right away by Patternfly. It features color combinations, icons, dashboards, interactive widgets, pop-up windows, notifications, charts and basically every other possible component that can be included web application. Widgets are presented with HTML and CSS code, more complex components need to be downloaded and installed as npm or yarn module.
 
 \chapter{API overview}
 
