@@ -8,7 +8,7 @@ Ovirt provides complete stack of management functions allowing to control and mo
 
 Nowadays the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machines and templates. Each of those entities has huge number of fields that might be in relation with one another. The challange is to make dialogs quick, responsive and force the to always provide valid data. This points to fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields.
 
-Redux is technology designed especially for state management of React applications. There are some recommendations not to use Redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
+Redux is technology designed especially for state management of React \cite{React} applications. There are some recommendations not to use Redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
 
 Redux is amazing for managing application state but it lacks ways to present data to user. Data stored in Redux store will be properly rendered by custom React components. React itself has mechanisms to manage state of components but as our application expands, enormous number of components may cause problems which lead to birth of Redux. This project is developed with Open Source spirit and so the design delivered by Patternfly library.
 
@@ -48,7 +48,7 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 \section{React}
 React is Open Source Javacript library dedicated to user interfaces. Application is divided to simpler components and each one of them is managing its own state. Components are built with emphasis on re-usability. Features like component nesting and conditional rendering allow us to make user interface modular and easier to maintain.
 
-\noident There are two types of React components:
+There are two types of React components:
 \begin{enumerate}
 \item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions but \texttt{React.Component} class with only \texttt{render()} function is solution as well.
 
