@@ -2,28 +2,34 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-Virtualization has become very important and powerful tool, used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies is making this area even more competitive. As datacenters grow there are several aspects that need to be considered when choosing the most suitable solution.
+Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered, when choosing the most suitable solution.
 
-Ovirt provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools. 
+oVirt\cite{oVirt} provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools such as moVirt\cite{moVirt} and Ansible\cite{Ansible}. 
 
-Nowadays the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machines and templates. Each of those entities has huge number of fields that might be in relation with one another. The challange is to make dialogs quick, responsive and force the to always provide valid data. This points to fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields.
+Nowadays, the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project, which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machines and templates. Each of those entities has huge number of fields that might be in relation with one another. The challenge is to make dialogs quick, responsive and force them to always provide valid data. Regarding data validity there are two specials cases. The first case represents fact, that many of fields can be prefigured from template. The other one is a case when we need to edit particular entity, so it is crucial to display data belonging to right entity, which needs to be edited. This points to the fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields.
 
-Redux is technology designed especially for state management of React \cite{React} applications. There are some recommendations not to use Redux to manage state of dialogs. Usually dialogs have up to 10 fields of different types and if there is a change activated by filling certain data handling of this change is secured by jQuery or simply by Javascript. But in this case it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
+Redux is technology designed especially for state management of React\cite{React} applications. There are some recommendations not to use Redux\cite{Redux} to manage state of dialogs. Configuration dialogs of oVirt entities can contain up to 62 fields \ref{graph}. Verifying data throughout whole configuration process, field after field, via technologies like jQuery can lead to pretty complex code. This is the reason why thoroughly designed solution for state management is required. But in this case, it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
 
-Redux is amazing for managing application state but it lacks ways to present data to user. Data stored in Redux store will be properly rendered by custom React components. React itself has mechanisms to manage state of components but as our application expands, enormous number of components may cause problems which lead to birth of Redux. This project is developed with Open Source spirit and so the design delivered by Patternfly library.
+React allows us to create presentional part of application. Similiarly like Redux, React itself has mechanisms to manage state of components, but as our application expands, large number of components may cause problems which lead to birth of Redux. This project is developed with Open Source spirit and so is the project design delivered by Patternfly\cite{Patternfly} library of elements.
 
 
 \chapter{oVirt}
-oVirt is Open Source virtualization management tool created by Red Hat. It provides highly scalable centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. Ovirt platform consists of two main parts - at least one oVirt engine and one or more oVirt nodes.
+oVirt is an Open Source virtualization management tool that provides centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
 
 \section{oVirt engine}
 oVirt engine represents the part where all management features resides. Backend is written in Java, from frontend perspective it offers multiple ways to manage virtual datacenters.
+
+\begin{figure}[h]
+\center{\scalebox{1}{\includegraphics{architecture.eps}}}
+\caption{oVirt architecture}
+\label{vector}
+\end{figure}
 
 \subsection{Administration portal}
 Administration portal is web based tool able to manage all available resources with user management, permissions and monitoring. 
 
 \subsection{User Portal}
-More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols Spice and VNC. User has only access to virtual machines and resources which was allocated to him by administrator.
+More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols SPICE\cite{SPICE} and VNC\cite{VNC}. User has only access to virtual machines and resources which was allocated to him by administrator.
 
 \subsection{Rest API}
 External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt Rest API supports both XML and JSON formats and it will be crucial part of development part described in this document.
@@ -31,7 +37,7 @@ External applications may influence datacenter management thanks to RESTful API.
 \section{oVirt node}
 Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora on Centos with enabled KVM hypervisor and VDSM(Virtual Desktop and Server Manager) daemon. VDSM deamon has control of all available resources including storage, networking and virtual machines. It is also responsible for reporting all actions to engine.
 
-\section{Ovirt Entities}
+\section{oVirt Entities}
 Data managed by oVirt are structured to objects known as entities. Next few sections are focused on explanation of oVirt entities important for this thesis.
 
 \textbf{Cluster} is logical group of virtual machines sharing the same storage domain and have the same CPU architecture of CPU family.
@@ -40,8 +46,9 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 
 \textbf{Virtual Machine} can be explain as actual computer system running in emulated environment and providing as much functionality as actual physical compute would provide.
 
-\textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. Ovirt usually has multiple host machines that are able to run as many virtual machines as resources low.
+\textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. oVirt usually has multiple host machines that are able to run as many virtual machines as resources low.
 
+\chapter{Manage IQ}
 
 \chapter{Javascript Technologies}
 
@@ -92,6 +99,7 @@ Group of designers and open source enthusiasts have gathered together and create
 
 
 
+\chapter{Proposed solution}
 
 
 
