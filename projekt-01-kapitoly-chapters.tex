@@ -2,7 +2,7 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of Open Source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered, when choosing the most suitable solution.
+Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of open source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered, when choosing the most suitable solution.
 
 oVirt\cite{oVirt} provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools such as moVirt\cite{moVirt} and Ansible\cite{Ansible}. 
 
@@ -10,11 +10,11 @@ Nowadays, the internet is being overwhelmed by modern single page applications c
 
 Redux is technology designed especially for state management of React\cite{React} applications. There are some recommendations not to use Redux\cite{Redux} to manage state of dialogs. Configuration dialogs of oVirt entities can contain up to 62 fields \ref{graph}. Verifying data throughout whole configuration process, field after field, via technologies like jQuery can lead to pretty complex code. This is the reason why thoroughly designed solution for state management is required. But in this case, it is so complex that it is necessary to know the values in various fields to make sure that user is selecting valid data. Template belonging only to certain cluster provides good example.
 
-React allows us to create presentional part of application. Similiarly like Redux, React itself has mechanisms to manage state of components, but as our application expands, large number of components may cause problems which lead to birth of Redux. This project is developed with Open Source spirit and so is the project design delivered by Patternfly\cite{Patternfly} library of elements.
+React allows us to create presentional part of application. Similiarly like Redux, React itself has mechanisms to manage state of components, but as our application expands, large number of components may cause problems which lead to birth of Redux. This project is developed with open source spirit and so is the project design delivered by Patternfly\cite{Patternfly} library of elements.
 
 
 \chapter{oVirt}
-oVirt is an Open Source virtualization management tool that provides centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
+oVirt is an open source virtualization management tool that provides centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
 
 \section{oVirt engine}
 oVirt engine represents the part where all management features resides. Backend is written in Java, from frontend perspective it offers multiple ways to manage virtual datacenters.
@@ -49,11 +49,37 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 \textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. oVirt usually has multiple host machines that are able to run as many virtual machines as resources low.
 
 \chapter{Manage IQ}
+ManageIQ\cite{ManageIQarchitecture} is open source cloud management tool able to manage environments of different sizes. With support for platforms like oVirt, Open Stack, Kubernetes, Amazon Web Services, Google Cloud Platform, Microsoft Azure and many more allows user to control multiple technologies such as virtual machines, public clouds and containers from multiple vendors in one modern web application.
+Application itself is written in Ruby and it can be deployed as virtual machine image and Docker container.
+
+\section{Discovery}
+All platforms supported by ManageIQ are providing APIs. By integrating these API functions, ManageIQ can scan the environment and discover all virtual machines, hypervisors, containers, storages, networks and all the others resources. Discovered data of entities and its relations are stored in the Virtual Management Database(VMDB). 
+
+After initial setup ManageIQ listens to events that are indicating changes and use them to refresh the VMDB. This way ManageIQ VMDB has always almost up to date data. It also features an option to make a full re-scan, which is also scheduled every 24-hours.
+Data are presented to user via web interface. For oVirt instance displayed content are list of clusters, templates, virtual machines and all related attributes.
+
+\section{Operational management}
+Since API of various platforms allow us to control some of entities actions. Not all of the actions are covered, the goals is to be able to do main management features through ManageIQ. 
+In case of oVirt entities user is able to create, edit virtual, clone and migrate virtual machines also perform basic tasks like power on, power off and reboot.
+
+ManageIQ tracks the changes and can display reports about changes made to entities over time. It tracks attributes like discs, memory but in some cases it can track even software versions. Attribute changes can be compared to entities of same type or to entity itself from earlier time.
+
+Resource management and monitoring is another advantage. ManageIQ provides various utilization charts of metrics like CPU, memory, disk with prediction when will these resources runs out of capacity.
+
+ManageIQ can help in financial area. User can assign certain cost values to resources like Virtual machine memory and disk, so ManageIQ can provide report with costs of whole system or of certain group of users.
+
+\section{Self-service}
+This feature allows the administrator to create catalog of request that can be ordered by users. It saves a lot of time for an administrators and also for a user as the virtual machine or application are delivered to them faster. The administrator can create collection of service items represented as service bundle. Each item represent an entity which ManageIQ knows how to create for example a virtual machine or container. 
+
+Some services require amount of input from user like memory and disk size in case of virtual machine. For this purpose the administrator can create a dialog via integrated dialog editor. Once the service bundle and dialogs are created, the service bundle needs to be associated with with an entry point which defines how this resource(virtual machine or container) will be provided. After completion of this process the service bundle can be inserted in the service catalog where it can be ordered by user. 
+
+
+\section{Compliance}
 
 \chapter{Javascript Technologies}
 
 \section{React}
-React is Open Source Javacript library dedicated to user interfaces. Application is divided to simpler components and each one of them is managing its own state. Components are built with emphasis on re-usability. Features like component nesting and conditional rendering allow us to make user interface modular and easier to maintain.
+React is an open source Javacript library dedicated to user interfaces. Application is divided to simpler components and each one of them is managing its own state. Components are built with emphasis on re-usability. Features like component nesting and conditional rendering allow us to make user interface modular and easier to maintain.
 
 There are two types of React components:
 \begin{enumerate}
