@@ -21,7 +21,7 @@ oVirt engine represents the part where all management features resides. Backend 
 
 \begin{figure}[h]
 \center{\scalebox{1}{\includegraphics{architecture.eps}}}
-\caption{oVirt architecture}
+\caption{oVirt architecture \cite{oVirtImg}}
 \label{vector}
 \end{figure}
 
@@ -52,6 +52,11 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 ManageIQ\cite{ManageIQarchitecture} is open source cloud management tool able to manage environments of different sizes. With support for platforms like oVirt, Open Stack, Kubernetes, Amazon Web Services, Google Cloud Platform, Microsoft Azure and many more allows user to control multiple technologies such as virtual machines, public clouds and containers from multiple vendors in one modern web application.
 Application itself is written in Ruby and it can be deployed as virtual machine image and Docker container.
 
+\begin{figure}[h]
+\center{\scalebox{0.75}{\includegraphics{manageIQ.eps}}}
+\caption{ManageIQ overview}
+\label{vector}
+\end{figure}
 \section{Discovery}
 All platforms supported by ManageIQ are providing APIs. By integrating these API functions, ManageIQ can scan the environment and discover all virtual machines, hypervisors, containers, storages, networks and all the others resources. Discovered data of entities and its relations are stored in the Virtual Management Database(VMDB). 
 
@@ -71,10 +76,12 @@ ManageIQ can help in financial area. User can assign certain cost values to reso
 \section{Self-service}
 This feature allows the administrator to create catalog of request that can be ordered by users. It saves a lot of time for an administrators and also for a user as the virtual machine or application are delivered to them faster. The administrator can create collection of service items represented as service bundle. Each item represent an entity which ManageIQ knows how to create for example a virtual machine or container. 
 
-Some services require amount of input from user like memory and disk size in case of virtual machine. For this purpose the administrator can create a dialog via integrated dialog editor. Once the service bundle and dialogs are created, the service bundle needs to be associated with with an entry point which defines how this resource(virtual machine or container) will be provided. After completion of this process the service bundle can be inserted in the service catalog where it can be ordered by user. 
-
+Some services require amount of input from user like memory and disk size in case of virtual machine. For this purpose the administrator can create a dialog via integrated dialog editor. Once the service bundle and dialogs are created, the service bundle needs to be associated with with an entry point which defines how this resource(virtual machine or container) will be provided. After completion of this process the service bundle can be inserted in the service catalog where it can be ordered by user. Once service is deployed user can start and stop virtual machine and has access to console. Services also have lifetime which can be set by administrator and service can be automatically terminated upon lifetime expiration. User is notified about expiration via email and might have an option to extend service.
 
 \section{Compliance}
+With ManageIQ administrators also have a tool for enforcing policies to discovered entities. When user deploy his own system via self-service administrator has at least some amount of control given back.
+
+But ManageIQ give the administrators even bigger power with SmartState Analyses(SSA) technology. It allows to define rules for content of virtual machines, hypervisors and containers. SSA is able to discover configurations, logs and even package databases and store them directly to VMDB. SSA is implemented agent-less, it access the disks of systems via platform-specific APIs, usually snapshots or backup APIs. Disks cannot be safely mounted by Linux kernel, so ManageIQ implements its own Ruby-based read-only file system that access disks from user space. The agent-less implementation provide a big advantage that guests are not required to be cooperative so SSA works even on virtual machines which are currently shut down.
 
 \chapter{Javascript Technologies}
 
@@ -90,7 +97,7 @@ There are two types of React components:
 
 Typical React work-flow is to create state-full component containing multiple stateless components and pass them data via \texttt{props}. Good practice is to define \texttt{PropTypes} to make sure that correct data types are being passed to our component and even \texttt{DefaultProps} which will be used is case that value is not defined in \texttt{props}. 
 
-\subsection{JSX} is an Javascript extension recommended to be used with React. It looks like actual HTML with dynamic data from React variables. JSX has series of huge advantages:
+\subsection{JSX} is an Javascript extension recommended to be used with React. It looks like actual HTML with dynamic data from React variables. JSX has series of advantages:
 \begin{itemize}
 \item faster writing of HTML templates and better understanding of what will actually be rendered
 \item there is an optimization while code is being compiler to Javascript so it is faster 
@@ -110,10 +117,17 @@ Actions are processed by pure functions called reducers. Reducer takes the curre
 \item Changes are made by pure functions -- reducers 
 \end{enumerate}
 
-
 \section{Redux-devtools}
+As application state grows it may become pretty unclear what actions are being dispatched, when and how are they affecting the state. Using Javascript console might be confusing and even mislead us.
+
+With Redux-devtools a programmer is able to go through every action dispatched from the initial application state to current state. The application basically becomes a movie which can be rewinded back and forth. Data in store can be seen in every moment and after clicking on dispatched actions programmer is provided with diff what exactly was changed. There is also an option to view application states as oriented graph, and move through its paths. As we inspect dispatched action, actual UI of application is changing too, because its state depend on the redux store. Thanks to this we can easily see which actions triggers the changes in UI or debug animations. It can be installed as an extension for web browser, there is also a package that needs to be added to project to be fully operational.
+  
 \section{Redux-saga}
+Redux-saga\cite{redux-saga} is library which provides functions for React/Redux applications which making asynchronous actions like fetching data from external resources easier and better. Saga acts like separate thread which is responsible purely for side effects. Redux-Saga is redux middleware, so the thread can be started, paused and canceled via actions dispatched from application. It has also access to the data stored in the redux store and can dispatch actions to influence it. It uses the ES6 generators functions which make them easier to write and read because the code looks like synchronous Javascript.
+
 \section{ImmutableJS}
+ImmutableJS\cite{immutable} is library providing data structures like List, Stack, Map, OrderedMap, Set, OrderedSet and Record. Once any instances of these structures are created they will provide persistent and immutable data. The only way to make a change is to yield new updated copy. Usage of immutable data structures makes the application state predictable and assure us that changes are being made only in module we want to change them and avoid unnecessary bugs caused by mutation. In case of redux changes of application state are handled by reducers.
+
 \section{PatternFly}
 Group of designers and open source enthusiasts have gathered together and created set of practices for building user interfaces of enterprise web applications. All requirements for modern UI is covered right away by Patternfly. It features color combinations, icons, dashboards, interactive widgets, pop-up windows, notifications, charts and basically every other possible component that can be included web application. Widgets are presented with HTML and CSS code, more complex components need to be downloaded and installed as npm or yarn module.
 
