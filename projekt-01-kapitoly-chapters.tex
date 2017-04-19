@@ -2,7 +2,7 @@
 % (c) Michal Bidlo, Bohuslav Křena, 2008
 
 \chapter{Introduction}
-Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of open source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered, when choosing the most suitable solution. Reasons and advantages why are businesses implementing virtualization solutions are growing\cite{virtualization}.
+Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of open source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered when choosing the most suitable solution. Reasons and advantages why are businesses implementing virtualization solutions are growing\cite{virtualization}.
 
 oVirt\cite{oVirt} provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools such as moVirt\cite{moVirt} and Ansible\cite{Ansible}. 
 
@@ -17,7 +17,7 @@ oVirt is an open source virtualization management tool that provides centralized
 
 
 \section{oVirt engine}
-oVirt engine is Java application running as web service and represents the part where all management features resides. The service is communicating directly to VDSM(Virtual Desktop and Server Manager) allowing the users to deploy, start, stop, migrate and monitor virtual machines. It comes with advanced management features for virtual machine lifecycle, storage, networking and live migration. oVirt engine stores all the information about virtual machines, virtual networks and storages in PostgreSQL\cite{postgre} database. User interaction with engine can be achieved via built-in web application for users and administrators. External application like ManageIQ and moVirt manage data centers via provided REST API.
+oVirt engine is a Java application running as web service and represents the part where all management features resides. The service is communicating directly to VDSM(Virtual Desktop and Server Manager) allowing the users to deploy, start, stop, migrate and monitor virtual machines. It comes with advanced management features for virtual machine lifecycle, storage, networking and live migration. oVirt engine stores all the information about virtual machines, virtual networks and storages in PostgreSQL\cite{postgre} database. User interaction with engine can be achieved via built-in web application for users and administrators. External application like ManageIQ and moVirt manage data centers via provided REST API.
 
 \begin{figure}[h]
 \center{\scalebox{1}{\includegraphics{architecture.eps}}}
@@ -28,7 +28,7 @@ oVirt engine is Java application running as web service and represents the part 
 \subsection{Administration portal}
 Administration portal is web based tool able to manage all available resources with user management. Administrator can grant and revoke user permissions and monitor data center via provided dashboards with graphs and statistics. 
 
-\subsection{User Portal}
+\subsection{User Portal}\label{userportal}
 More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols SPICE\cite{SPICE} and VNC\cite{VNC}. User has only access to virtual machines and resources which was allocated to him by administrator.
 
 \subsection{Rest API}
@@ -56,9 +56,12 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 
 \textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. oVirt usually has multiple host machines that are able to run as many virtual machines as resources allow.
 
-\chapter{Manage IQ}
+\chapter{ManageIQ}\label{MIQ}
 ManageIQ is open source cloud management tool able to manage environments of different sizes. With support for platforms like oVirt, Open Stack, Kubernetes, Amazon Web Services, Google Cloud Platform, Microsoft Azure and many more allows user to control multiple technologies such as virtual machines, public clouds and containers from multiple vendors in one modern web application.
-Application itself is written in Ruby and it can be deployed as virtual machine image and Docker container. Contents of following chapters are based on Gert Jansens article\cite{ManageIQarchitecture}.
+Application itself is written in Ruby and it can be deployed as virtual machine image and Docker container. 
+
+From oVirt perspective ManageIQ can perform most of the task that can be performed by oVirt web tools. Advantage is that user has data from every platform in one place with almost same amount of options as provided by each underlying tool. Disadvantage may be that user has to distinguish between products of various vendors which can become complicated when managing big number of entities. This project will focus on research of ManageIQ API from oVirt perspective and try to integrate it on similar layer as oVirt API.
+Next sections are focused on ManageIQ architecture and are based on Gert Jansens article\cite{ManageIQarchitecture}.
 
 \begin{figure}[h]
 \center{\scalebox{0.75}{\includegraphics{manageIQ.eps}}}
@@ -101,7 +104,7 @@ There are two types of React components\cite{React}:
 \begin{enumerate}
 \item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions\cite{arrowFunctions} but \texttt{React.Component} class with only \texttt{render()} function is solution as well.
 
-\item \textbf{Stateful components} provide full state management with option to use component life-cycle methods. Any change of state will cause re-invoking of texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in constructor.
+\item \textbf{Stateful components} provide full state management with option to use component life-cycle methods. Any change of state will cause re-invoking of \texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in constructor.
 \end{enumerate}
 
 Typical React work-flow is to create stateful component containing multiple stateless components and pass them data via \texttt{props}. Good practice is to define \texttt{PropTypes} to make sure that correct data types are being passed to our component and even \texttt{DefaultProps} which will be used is case that value is not defined in \texttt{props}. 
@@ -142,12 +145,72 @@ ImmutableJS\cite{immutable} is library providing data structures like List, Stac
 \section{PatternFly}
 Group of designers and open source enthusiasts have gathered together and created a set of practices for building user interfaces of enterprise web applications. Patternfly features color combinations, icons, dashboards, interactive widgets, pop-up windows, notifications, charts and many more components that can be included in modern web application. To get and initial set of icons and theming to our project we need to install a Patternfly module via npm\cite{npm} or yarn\cite{yarn}. Then just choose the right component for project via Patternfly wesite\cite{Patternfly} where is located all related HTML code. Some more complex components have its own module and they need to be installed separately. To achieve some functionality, user has to be able to look through actual code of the module. They also might require jQuery to run properly.
 
-\chapter{API overview}
-\section{Comunication Layer}
-\section{oVirt API}
-\section{ManageIQ API}
-
 \chapter{Proposed solution}
+Work done by this project becomes a part of an open source project oVirt Web UI. The goal of this project is to build a new basic User Portal \ref{userportal} which now written as GWT\cite{gwt} application with lack of speed and hardly maintainable code base. Dialogs in current solution need to update state of fields after every change made by user. The update itself can take up to few seconds and if user works with the application on daily basis in can be pretty frustrating and lower the productivity.
+
+Important fact is to realize that purpose of the application is to provide user a tool that will be able to communicate with oVirt engine, provide the information about stored entities and a way to manage them. Application will not be able to work standalone and will depend on engine data.
+
+Our application will try to solve this problem by fetching as much data as possible right from start with shallow updates scheduled for every minute. With all required data saved in Redux store, we can take advantage of proposed technologies and manage the state of dialogs.
+
+\begin{figure}[h]
+\center{\scalebox{1}{\includegraphics{application_architecture.eps}}}
+\caption{Application architecture}
+\label{vector}
+\end{figure}
+
+\section{Comunication Layer}
+This solution implements two possible backends oVirt Rest API and ManageIQ Rest API. Manage IQ integration of Rest API is still in heavy development and there were few problems which disallow us to implement the same level of functionality as we were able to implement with API provided by oVirt engine. To maintain the transparency between them, layers providing operations against API are developed as separate modules. Each module implements function needed to fetch data or alter them.
+
+Both APIs have similarities and Operations against APIs are handled in both modules by \texttt{jQuery.ajax()}\cite{ajax} call for HTTP asynchronous request.
+Request has to have proper header including \texttt{Authorization} and \texttt{Accept} fields. 
+
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines
+}
+
+\begin{figure}[h]
+\begin{lstlisting}[language=json]
+$.ajax(url, {
+      'type': 'GET',
+      'Accept': 'application/json',
+      'Authorization': 'Basic YWRtaW46c21hcnR2bQ==',
+    }).then(data => Promise.resolve(data))
+\end{lstlisting}
+\caption{Code sample for fetching data from ManageIQ with Basic Authentication}
+\label{vector}
+\end{figure}
+
+Both platforms support authorization via token which is recommended but for development purposes can be used base authentication method.
+\texttt{Accept} field will use in our case \texttt{application/json} value because it is more suitable data format for Javacript than XML. Modules use several kinds of HTTP protocol methods: 
+\begin{itemize}
+\item \texttt{GET} method to obtain list of entities or one specific resource e.g. virtual machines, templates, clusters,
+\item \texttt{POST} method is handling case when user want to create new entity or resource,
+\item \texttt{PUT} to update resource data,
+\item \texttt{DELETE} to delete data,
+\item \texttt{OPTION} used by ManageIQ, explained in section \ref{miq},
+\end{itemize}
+
+Important part of the communication modules is to convert entities obtained from API to understandable form for front-end. Virtual machine is represented like an object with all properties required for user. More entities are inserted in a list.
+
+
+\section{oVirt API}
+
+
+\section{ManageIQ API}\label{miq}
+ManageIQ is totally different project as described in chapter \ref{MIQ}. It is using oVirt API to manage oVirt data centers. Because all of management tools has its own API, ManageIQ converting data to its own, unified representation. The resources provided by ManageIQ by should contain all the data retrieved from underlying management tools. But research has proven that this is not the case yet at least for oVirt and its entities.
+Main entry point of API can be accessed via url\texttt{https://<host>/api}. It contains JSON with basic information and all accessible entities and url. 
+
+\section{oVirt entities}
+Access 
+ 
 
 \chapter{Conclusion}
 
