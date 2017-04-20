@@ -205,12 +205,44 @@ Important part of the communication modules is to convert entities obtained from
 
 
 \section{ManageIQ API}\label{miq}
-ManageIQ is totally different project as described in chapter \ref{MIQ}. It is using oVirt API to manage oVirt data centers. Because all of management tools has its own API, ManageIQ converting data to its own, unified representation. The resources provided by ManageIQ by should contain all the data retrieved from underlying management tools. But research has proven that this is not the case yet at least for oVirt and its entities.
+ManageIQ is totally different project as described in chapter \ref{MIQ}. It is using oVirt API to manage oVirt data centers. Because all of management tools has its own API, ManageIQ converting data to its own, unified representation. The resources provided by ManageIQ by should contain all the data retrieved from underlying management tools.
 Main entry point of API can be accessed via url\texttt{https://<host>/api}. It contains JSON with basic information and all accessible entities and url. 
 
+
+\section{HTTP access control}
+This section is dedicated to the first problem I encountered when I tried to implement ManageIQ support to the application.
+
+The same-origin policy\cite{policy} is an important security concept implemented in web browsers. Basically it disallows the document or script to use resource that comes from the another origin. Website has a different origin if it comes with different protocol, url or port. This policy has a simple intention to prevent a malicious website from reading the confidential information from other websites, it also prevent to read the data that might be offered by other website. A banking application with sensitive data is a good example demonstrating the purpose of this policy. Security is very important but our application requires the data from ManageIQ API that are definitely not coming from the same origin as our application.
+
+Thankfully HTTP protocol implements The Cross-Origin Resource Sharing(CORS)\cite{cors} mechanism to alleviate the same-origin policy, so Javascript is able to read REST API served from different origin. The CORS mechanism should be fully automatic, there is no need to alter the request headers. Any request from client which desires the cross-origin communication via \texttt{GET}, \texttt{POST}, \texttt{HEAD} method automatically includes on \texttt{Origin} field in header that describes the origin of client. The server will evaluate the clients request and will either allow it or disallow it. If the first case is true, then the server will respond with requested resources and also include \texttt{Access-Control-Allow-Origin} field in response header. This does not mean that we can access the data, there is still a second part of evaluation which is made by browser. The \texttt{Access-Control-Allow-Origin} has to be to present in the response header and must match with the requests \texttt{Origin} field. If those two don't match browser will disallow our application to read the data. The \texttt{Access-Control-Allow-Origin} might contain * which means that everyone is able to access given resource but it is considered a bad practice.
+
+There is one more complication to mechanism described above. If we make a request that is not considered simple, the web browser will make a preflight request. This request will basically ask if the application is allowed to access given resource, without actually performing it. Actual request is sent after the preflight has succeeded. Request is considered simple if client is making and of \texttt{GET}, \texttt{POST}, \texttt{HEAD} and content type is one of the following \texttt{application/x-www-form-urlencoded}, \texttt{multipart/form-data}, or \texttt{text/plain}. Also the fields in header are limited to \texttt{Accept}, \texttt{Accept-Language}, \texttt{Content-Language}. Because we need \texttt{Content-type} to be set to \texttt{application/json} and \texttt{Authorization} our request is not considered simple and for every one of them requires a preflight. The preflights are messages which use \texttt{OPTION} method, a response contains list of allowed actions.
+
+None of this would be a problem but problem was the ManageIQ itself. It refused to send \texttt{Access-Control-Allow-Origin} headers so any time a request was made it was answered by server but denied by web browser. This problem was reported as an issue to ManageIQ Github page and the patch solving the issue was delivered. After patch application problem was solved only partially because preflight request were working only for top level entities. So we were able to fetch the list of virtual machines but not the virtual machine information.
+
+This problem can be solved on client side but it is considered a bad practice a should be used only in development. The solution was to completely disable web browser security thus no preflight request and no same-origin policy enforcement. Since I believe that this problem will be solved by ManageIQ team in future as a temporary solution I decided to disable it on Chromium browser by running it with\texttt{--disable-web-security --user-data-dir} parameters. Afterwards I was able to access all the entities.
+
 \section{oVirt entities}
-Access 
- 
+After solving initial problem everything was ready to fully integrate the application with ManageIQ. Initial research has shown that ManageIQ REST API provide only very small fraction of information compared to oVirt REST API.
+Basic task like creating a virtual machine requires at least information about clusters, templates and optionally about virtual machines. Data of mentioned entities are accessible, however a list of operating systems is missing. 
+
+When it comes to individual entities, they include the references to original url from which was given resource obtained. Most of the field contains url to oVirt API, some of the fields are even duplicated but they had different names. This leads us to conclusion that these fields might have some internal purpose but for us are unusable. 
+
+The only useful information belonging to cluster are name and id. Template consists only from id, name and cluster. It lacks important information about memory, cpu operating system and many more. In case of virtual machine id and name are consistent however fields like template and memory differs from machine to machine.  The most interesting was cluster field which hold only the url of original oVirt API resource. This pointed to fact that determine the cluster of virtual machine is not possible just by ManageIQ Rest API. Not to mention completely missing resources like operating systems and important CPU and memory fields.
+
+There were also several unsuccessful attempts to create a virtual machine but it looked like \texttt{POST} requests are handled like \texttt{GET} as the response was always 400 OK with list of resources instead of 401 created. In the end all available actions were to start and stop a virtual machine.
+
+Performance and speed is also not quite sufficient compared to oVirt API. The way virtual machines are arranged looks inappropriate. Lets say we want to download a list of all vms and all data for oVirt entities. Consider that ManageIQ also contain big number if virtual machine which belongs to different vendors. First \texttt{GET} to \texttt{/api/vms} will get us only a list of virtual machines with url and id of every single machine. So to get data of each virtual machine we need to make \texttt{GET} requests repeatedly for every machine with included preflight request. Only after downloading the virtual machine contents we can examine the vendor field and determine if machine belongs to oVirt. If not, we made useless request and we must drop the data and proceed to next machine. Tests on our local ManageIQ instance with around 100 virtual machines shows that only fetching virtual machines lasts up to 10 seconds. Compared to oVirt API, Manage IQ is much slower considering that it contains less data than oVirt API.  
+
+Result of this research shows that the oVirt segment of ManageIQ REST API is not yet ready for integration. The small part that was implemented and tested is not ready for user, because it misses key actions and data. We also have to mention the security problem with wrong header for OPTION method.
+
+\section{Saga middleware}
+
+\section{React components}
+
+\section{Patternfly integration}
+
+\section{Future development}
 
 \chapter{Conclusion}
 
