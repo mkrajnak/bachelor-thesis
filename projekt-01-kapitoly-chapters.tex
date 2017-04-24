@@ -13,16 +13,16 @@ Redux is technology designed especially for state management of React\cite{React
 React allows us to create presentional part of application. Similiarly like Redux, React itself has mechanisms to manage state of components, but as our application expands, large number of components may cause problems which lead to birth of Redux. This project is developed with open source spirit and so is the project design delivered by Patternfly\cite{Patternfly} library of elements.
 
 \chapter{oVirt}
-oVirt is an open source virtualization management tool that provides centralized management of virtual datacenters, virtual hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
+oVirt is an open source virtualization management tool that provides centralized management of virtual datacenters, hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
 
 
 \section{oVirt engine}
-oVirt engine is a Java application running as web service and represents the part where all management features resides. The service is communicating directly to VDSM(Virtual Desktop and Server Manager) allowing the users to deploy, start, stop, migrate and monitor virtual machines. It comes with advanced management features for virtual machine lifecycle, storage, networking and live migration. oVirt engine stores all the information about virtual machines, virtual networks and storages in PostgreSQL\cite{postgre} database. User interaction with engine can be achieved via built-in web application for users and administrators. External application like ManageIQ and moVirt manage data centers via provided REST API.
+oVirt engine is a Java application running as web service and represents the part where all management features resides. The service is communicating directly to VDSM(Virtual Desktop and Server Manager) allowing the users to deploy, start, stop, migrate and monitor virtual machines. It comes with advanced management features for virtual machine lifecycle, storage, networking and live migration. oVirt engine stores all the information about virtual machines, virtual networks and storages in PostgreSQL\cite{postgre} database. User interaction with engine can be achieved via built-in web application for users and administrators. External application like ManageIQ and moVirt manage data centers via provided REST API. Overview of oVirt architecture is in Figure \ref{ovirt_architecture}.
 
 \begin{figure}[h]
 \center{\scalebox{1}{\includegraphics{architecture.eps}}}
 \caption{oVirt architecture \cite{oVirtImg}}
-\label{vector}
+\label{ovirt_architecture}
 \end{figure}
 
 \subsection{Administration portal}
@@ -35,21 +35,21 @@ More suited for end users is User Portal as it targets basic virtual machine man
 External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt Rest API supports both XML and JSON formats and it will be crucial part of development part described in this document.
 
 \section{oVirt node}
-Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora or Centos with enabled KVM\cite{kvm} hypervisor and VDSM daemon. VDSM deamon is an application written in Python that has control of all available resources including storage, networking and virtual machines. VDSM-Hooks\cite{hooks} allow to extend the VDSM functionality be custom script which can be executed at certain lifecycle events of virtual machine. Management of virtual machines lifecycles and collection of statistics is possible via libvirt\cite{libvirt}. VDSM is also responsible for reporting all actions to engine.
+Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora or Centos with enabled KVM\cite{kvm} hypervisor and VDSM daemon. VDSM deamon is an application written in Python that has control of all available resources including storage, networking and virtual machines. VDSM-Hooks\cite{hooks} allow to extend the VDSM functionality by a custom script which can be executed at certain lifecycle events of virtual machine. Management of virtual machines lifecycles and collection of statistics is possible via libvirt\cite{libvirt}. VDSM is also responsible for reporting all actions to engine.
 
 \section{oVirt Entities}
 Data managed by oVirt are structured to objects known as entities. Next few sections are focused on explanation of oVirt entities important for this thesis.
 
-\textbf{Cluster} is logical group of virtual machines sharing the same storage domain and have the same CPU architecture of CPU family.
+\textbf{Cluster} is logical group of hosts sharing the same storage domain and have the same CPU architecture or CPU family.
 
 \textbf{Template} represents a copy of virtual machine. This functionality is very valuable especially in cases when you need to repeatedly create bigger amount of virtual machines with same of similar properties. Template also holds the information about hardware and software configurations of derived virtual machine. 
 
 \noindent There are two possibilities how virtual machines can be created from template: 
 \begin{enumerate}
 
-\item \textbf{Thin provisioned} is a way to create a virtual machine just with necessary information, all the other information are just reference to a template from which is the virtual machine derived. An advantage is that data storage of the virtual machine is just a thin copy so it saves disk resources. On the other hand there is also disadvantage in CPU capacity needed to manage disk diffs. Also once a new virtual machine is created by this method, template cannot be removed while the virtual machine exists in the environment. 
+\item \textbf{Thin provisioned} has an advantage that data storage of the virtual machine is just a thin copy so it saves disk resources. On the other hand there is also disadvantage in CPU capacity needed to manage disk diffs. Also once a new virtual machine is created by this method, template cannot be removed while the virtual machine exists in the environment. 
 
-\item \textbf{Clone provisioned} is case where whole disks are copied from the template, therefore a virtual machine created this way is less dependent on template which can be removed at any time. This method requires more disc capacity.
+\item \textbf{Clone provisioned} is case where whole disks are copied from the template, so this method requires more disc capacity. A virtual machine created this way is independent on template therefore it can be removed at any time. 
 \end{enumerate} 
 
 \textbf{Virtual Machine} can be explained as actual computer system running in emulated environment and providing as much functionality as actual physical compute would provide.
@@ -57,16 +57,16 @@ Data managed by oVirt are structured to objects known as entities. Next few sect
 \textbf{Host} is physical computer with installed hypervisor which allows to run multiple virtual machines on this host. oVirt usually has multiple host machines that are able to run as many virtual machines as resources allow.
 
 \chapter{ManageIQ}\label{MIQ}
-ManageIQ is open source cloud management tool able to manage environments of different sizes. With support for platforms like oVirt, Open Stack, Kubernetes, Amazon Web Services, Google Cloud Platform, Microsoft Azure and many more allows user to control multiple technologies such as virtual machines, public clouds and containers from multiple vendors in one modern web application.
+ManageIQ is open source cloud management tool able to manage environments of different sizes, as shown in Figure \ref{miq_architecture}. With support for platforms like oVirt, Open Stack, Kubernetes, Amazon Web Services, Google Cloud Platform, Microsoft Azure and many more allows user to control multiple technologies such as virtual machines, public clouds and containers from multiple vendors in one web application.
 Application itself is written in Ruby and it can be deployed as virtual machine image and Docker container. 
 
-From oVirt perspective ManageIQ can perform most of the task that can be performed by oVirt web tools. Advantage is that user has data from every platform in one place with almost same amount of options as provided by each underlying tool. Disadvantage may be that user has to distinguish between products of various vendors which can become complicated when managing big number of entities. This project will focus on research of ManageIQ API from oVirt perspective and try to integrate it on similar layer as oVirt API.
+From oVirt perspective ManageIQ can perform only basic tasks compared to tasks that are performable by oVirt web tools. Advantage is that user has data from every platform in one place with almost same amount of options as provided by each underlying tool. Disadvantage may be that user has to distinguish between products of various vendors which can become complicated when managing big number of entities. This project will focus on research of ManageIQ API from oVirt perspective and try to integrate it on similar layer as oVirt API.
 Next sections are focused on ManageIQ architecture and are based on Gert Jansens article\cite{ManageIQarchitecture}.
 
 \begin{figure}[h]
 \center{\scalebox{0.75}{\includegraphics{manageIQ.eps}}}
 \caption{ManageIQ architecture overview\cite{manageIQimg}}
-\label{vector}
+\label{miq_architecture}
 \end{figure}
 
 \section{Discovery}
@@ -246,18 +246,22 @@ The work described to this point of the thesis is practically invisible. The par
 
 Dialogs, which are we building have up to 62 fields and there are always new features which can be added to oVirt and need to be configurable. The key to keep dialog modular is to design sub-components which allow us to easily add or remove fields. To achieve this goal we build standalone React components for every type of data we have to handle in dialog.
 
-\textbf{LabeledTextField} is a component designed to obtain text input from a user. Input from user in this case may be represented either as a number or as text. Component is configurable from parent component via \texttt{props} with restricted \texttt{propTypes}.
+\texttt{LabeledTextField} is a component designed to obtain text input from a user. Input from user in this case may be represented either as a number or as text. Component is configurable from parent component via \texttt{props} with restricted \texttt{propTypes}.
 In case of number value a programmer can set \texttt{min} value \texttt{prop}, so for example in case of virtual machine's memory we can make sure that the value is not negative. Another useful \texttt{prop} in case of numerical value is \texttt{step} which allows user to increase or decrease the value inside field by certain amount via small arrow buttons. The amount is decided by programmer but all \texttt{props} have default value which is used in case that programmer does not set given props in parent component. The arrow buttons are the only difference between text and numerical output and also provide good guidance for the user what value is expected.
 Fields with text output are more common which is the reason why is text default  input type. 
 
-\textbf{LabeledSelect} component prodes user with list of values which can be selected. It features \texttt{selectClass prop} which determies the type of widget will be used. 
-The first -- classic option provides user with list of the options with default option pre-selected. This representation is suitable for cases when the list of options is short.
-The other option is similar combo box but with type-aheads. User can simply start to type desired option and if it is available he can select it. Advantage is mainly when selecting operating system for a virtual machine because list is typically longer than height of screen. Because user is able to type any value there is always a verification process which checks if a value is really listed as an option. If not, user is notified via notification bubble with warning message specifying which input is wrong even before the date are sent.
+\texttt{LabeledSelect} component provides user with list of values which can be selected. It features \texttt{selectClass prop} which determines the type of widget that will be used. 
+The first~--~classic option provides user with list of the options with default option pre-selected. This representation is suitable for cases when the list of options is short.
+The other option is similar combo box but with type-aheads. User can simply start to type desired option and if it is available he can select it. Advantage is mainly when selecting operating system for a virtual machine because list is typically longer than height of the screen. Because user is able to type any value, there is always a verification process which checks if the value is really listed as an option. If not, user is notified via notification bubble with warning message specifying which input is wrong even before the date are sent.
 
+\section{Patternfly integration and design}
+All React components and HTML related content are using styles provided by Patternfly. It is accessible via dedicated npm module which needs to be included to gain access to styles and widgets. Not all widgets are included by default, the more complicated widgets that are using Javascript or jQuery have its own npm module which also need to be included. In our project it was the case of \texttt{LabeledSelect} which is using Javascript to secure type-ahead functionality.
 
+The combination of React and jQuery is the source of multiple implementation problems in front-end. As user is going through dialogs fields, they have to reflect choices he has already made. List of options in \texttt{LabeledSelect} component has to be properly re~-~rendered e.g. when needed. In order to re-render component which is using jQuery we have to use of the React life-cycle methods, to be specific \texttt{componentDidMount()} and \texttt{componentDidUpdate()} method. Every component using jQuery has a specific method which need to be called initially for component to properly render and work. These methods must be called from mentioned life-cycle. Thanks to this whenever user make a choice, Redux store will be update. If this change apply to part of store mapped to React component that is using jQuery, \texttt{componentDidUpdate()} is called and widget has a new list of values. 
+Determine the method which initiate the jQuery work-flow in case of type-ahead variant of \texttt{LabeledSelect} wasn't simple. But we took advantage of a fact that Patternfly is an open source project, so we had to go through the code where we were able to find the right method~--~\texttt{combobox()}.
 
+Styles for simple widgets like buttons or headings are added by providing HTML element with attribute \texttt{class} or \texttt{className} in case of JSX. List of classes with demonstrations can be found on Patternfly website\cite{Patternfly}. 
 
-\section{Patternfly integration}
 
 \section{Future development}
 
