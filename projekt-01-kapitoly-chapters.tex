@@ -1,6 +1,6 @@
 %=========================================================================
 % (c) Michal Bidlo, Bohuslav Křena, 2008
-
+\renewcommand{\lstlistingname}{Code sample}
 \chapter{Introduction}
 Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of open source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered when choosing the most suitable solution. Reasons and advantages why are businesses implementing virtualization solutions are growing\cite{virtualization}.
 
@@ -212,7 +212,6 @@ This solution implements two possible backends oVirt Rest API and ManageIQ Rest 
 Both APIs have similarities and Operations against APIs are handled in both modules by \texttt{jQuery.ajax()}\cite{ajax} call for HTTP asynchronous request.
 Request has to have proper header including \texttt{Authorization} and \texttt{Accept} fields. 
 
-\bigskip
 \lstdefinelanguage{json}{
     basicstyle=\normalfont\ttfamily,
     numbers=left,
@@ -223,18 +222,15 @@ Request has to have proper header including \texttt{Authorization} and \texttt{A
     breaklines=true,
     frame=lines
 }
-
-\begin{figure}[h]
-\begin{lstlisting}[language=json,xleftmargin=3.5ex]
+\bigskip
+\begin{lstlisting}[language=json,xleftmargin=3.5ex,caption={Fetching data from ManageIQ with Basic Authentication},captionpos=b]
 $.ajax(url, {
       'type': 'GET',
       'Accept': 'application/json',
       'Authorization': 'Basic YWRtaW46c21hcnR2bQ==',
     }).then(data => Promise.resolve(data))
-\end{lstlisting}
-\caption{Code sample for fetching data from ManageIQ with Basic Authentication}
-\label{base}
-\end{figure}
+\end{lstlisting}\label{base}
+\bigskip
 
 Recommended authentication method for both platforms is an authentication via token. There is also an option to use basic authentication method for development purposes, where password in only encoded using variant of Base64 as shown in \ref{base}.
 \texttt{Accept} field will use in our case \texttt{application/json} value because it is more suitable data format for Javacript than XML. Modules use several kinds of HTTP protocol methods: 
