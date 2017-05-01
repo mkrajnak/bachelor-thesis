@@ -255,7 +255,6 @@ Since there are policies and restrictions for certain data, oVirt engine may den
 As described in Chaper \ref{MIQ}, ManageIQ is quite different project which take an advantage of oVirt API in order to manage oVirt data centers. Because each one of the management tools has its own API, ManageIQ converting data to its own, unified representation. The resources provided by ManageIQ should contain all the data retrieved from underlying management tools.
 Main entry point of API can be accessed via url \texttt{https://<hostaddress>/api}. It contains JSON with basic information and all accessible entities and url. 
 
-
 \section{Manage IQ implementation}
 This section is dedicated to the problems I encountered when I tried to implement ManageIQ support to the application. It also includes communication with ManageIQ developers and applying patches which were experimental and at that time, unapproved.
 
@@ -285,6 +284,7 @@ Result of this research shows that the oVirt segment of ManageIQ REST API is not
 
 \section{Saga middleware operations}
 
+
 \section{React components}
 The work described to this point of the thesis is practically invisible. The part that must handle user interaction will be implemented in React with state management dedicated to Redux. 
 
@@ -299,7 +299,13 @@ The first~--~classic option provides user with list of the options with default 
 The other option is similar combo box but with type-aheads. User can simply start to type desired option and if it is available he can select it. Advantage is mainly when selecting operating system for a virtual machine because list is typically longer than height of the screen. Because user is able to type any value, there is always a verification process which checks if the value is really listed as an option. If not, user is notified via notification bubble with warning message specifying which input is wrong even before the date are sent.
 
 \texttt{Alert} can display red rectangle window with an error message inside. This component provides transparent and simple demonstration of conditional rendering in React. The only prop passed from parent is message itself. If message contain an empty string, which is also initial state, \texttt{Alert} is rendered only as empty \texttt{<div$\backslash$>} without content or style. 
-Error messages are often result of failed REST API call. Errors are being detected by saga-middleware by examining the code from the server response. As soon as error is detected, saga will dispatch an action with an update which contains error message from server. The message is processed by the corresponding reducer and store is updated. The update is broadcasted to React components which subscribed to updated part of store. In other words error message is displayed to a user immediately after the server response is received without any delays. 
+Error messages are often result of failed REST API call. Errors are being detected by saga-middleware by examining the code from the server response. As soon as error is detected, saga will dispatch an action with an update which contains error message from server. The message is processed by the corresponding reducer and store is updated. The update is broadcasted to React components which subscribed to updated part of store. In other words error message is displayed to a user immediately after the server response is received without any delays.
+
+\texttt{AddVmDialog} is a component where we take an advantage of all the previously created reusable components. The component is a class inherited from a \texttt{React.Component} which means that the component is stateful. Usage of a stateful variant is allowing us to use the life-cycle methods for proper sub-component initialization via jQuery. The component also needs to read the data from the sub-components which is achievable through \texttt{ref} attributes supported only by the stateful components.
+
+The sub-components are prepared in \texttt{AddVmDialog}'s \texttt{render()} method with all required props initiated for each one of them. Since components are reusable they have multiple options configurable via props. Therefore not all the props are required to be used in a parent component, only those which suit our current need. The props also come with the certain restrictions. Each of the sub-components defines its own \texttt{.propType} section with data type restriction and definition, which is describing whether the prop is or is not required. Optional props may acquire default values, e.g. \texttt{placeholder} prop is by default set to the same value as the \textt{label} prop as long as it is not overwritten from parent.
+
+The communication between the parent component is achieved through callbacks passed to sub-components via certain attributes. Those attributes are \texttt{ref} and \texttt{onChange}. The \texttt{ref} callback is a pure function which store the input in dialog field to a class property of the parent component. As an suitable example we can use cluster field where callback function is defined \texttt{(input) => { this.cluster = input }}. Therefore the parent component is able to access the value of the cluster field by calling \texttt{this.cluster.value}. The \texttt{onChange} callback defines a function which will be called when change event occur. In conclusion, these callbacks allow us to catch the change event in dialog field, read the data provided by \texttt{ref} and pass the obtained value to the Redux store.
 
 \section{Patternfly integration and design}
 All React components and HTML related content are using styles provided by Patternfly. It is accessible via dedicated npm module which needs to be included to gain access to styles and widgets. Not all widgets are included by default, the more complicated widgets that are using Javascript or jQuery have its own npm module which also need to be included. In our project it was the case of \texttt{LabeledSelect} which is using Javascript to secure type-ahead functionality.
