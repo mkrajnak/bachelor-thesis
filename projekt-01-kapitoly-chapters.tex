@@ -4,7 +4,7 @@
 \chapter{Introduction}
 Virtualization has become very important and powerful tool used in various technology sectors. There are plenty of usecases including testing, learning and development. Availability and improvement of open source technologies is making this area even more competitive. As datacenters grow, there are several aspects that need to be considered when choosing the most suitable solution. Reasons and advantages why are businesses implementing virtualization solutions are growing\cite{virtualization}.
 
-oVirt\cite{oVirt} provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich Restful API, even allows us to build our own custom tools such as moVirt\cite{moVirt} and Ansible\cite{Ansible}. 
+oVirt\cite{oVirt} provides complete stack of management functions allowing to control and monitor the whole realm of virtual datacenters. The presence of rich RESTful API, even allows us to build our own custom tools such as moVirt\cite{moVirt} and Ansible\cite{Ansible}. 
 
 Nowadays, the internet is being overwhelmed by modern single page applications created by advanced Javascript frameworks. This paper is written around the project, which makes effort to build similar application for oVirt. Main focus will be placed on dialogs as they administrate big entities like virtual machines and templates. Each of those entities has huge number of fields that might be in relation with one another. The challenge is to make dialogs quick, responsive and force them to always provide valid data. Regarding data validity there are two specials cases. The first case represents fact, that many of fields can be prefigured from template. The other one is a case when we need to edit particular entity, so it is crucial to display data belonging to right entity, which needs to be edited. This points to the fact, that dependency handling and excellent state management based on decision made by user can influence the data in one or few other fields.
 
@@ -31,8 +31,8 @@ Administration portal, also called Power user portal, is web based tool able to 
 \subsection{User Portal}\label{userportal}
 More suited for end users is User Portal as it targets basic virtual machine management and access to virtual consoles secured by protocols SPICE\cite{SPICE} and VNC\cite{VNC}. User has only access to virtual machines and resources which was allocated to him by administrator.
 
-\subsection{Rest API}
-External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt Rest API supports both XML and JSON formats and it will be crucial part of development part described in this document.
+\subsection{REST API}
+External applications may influence datacenter management thanks to RESTful API. As a demonstration can be used Android application moVirt, which allows to manage and monitor datacenter from a smartphone. oVirt REST API supports both XML and JSON formats and it will be crucial part of development part described in this document.
 
 \section{oVirt node}
 Resources managed by oVirt engine belongs to one or more oVirt nodes, which are basically servers running RHEL, Fedora or Centos with enabled KVM\cite{kvm} hypervisor and VDSM daemon. VDSM deamon is an application written in Python that has control of all available resources including storage, networking and virtual machines. VDSM-Hooks\cite{hooks} allow to extend the VDSM functionality by a custom script which can be executed at certain lifecycle events of virtual machine. Management of virtual machines lifecycles and collection of statistics is possible via libvirt\cite{libvirt}. VDSM is also responsible for reporting all actions to engine.
@@ -102,7 +102,7 @@ React is an open source Javacript library dedicated to user interfaces. Applicat
 
 There are two types of React components\cite{React}:
 \begin{enumerate}
-\item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions\cite{arrowFunctions} but \texttt{React.Component} class with only \texttt{render()} function is solution as well.
+\item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions\cite{arrowFunctions} but \texttt{React.Component} class with only \texttt{render()} function is also a possible solution.
 
 \item \textbf{Stateful components} provide full state management with option to use component life-cycle methods. Any change of state will cause re-invoking of \texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in constructor.
 \end{enumerate}
@@ -117,7 +117,7 @@ JSX\cite{JSX} is an Javascript extension recommended to be used with React. It l
 \item it is type-safe so there is significant amount of error detected during compilation
 \end{itemize}  
 
-One of the limitations of JSX is a fact that some of the XML tag attributes are in namespace collision with Javascript. Therefore in actual JSX code attributes like \texttt{class} and \texttt{for} are being replaced with \texttt{className} and \texttt{htmlFor} respectively. Fortunately modern have ability to warn programmers about this making mistake. 
+One of the limitations of JSX is a fact that some of the XML tag attributes are in namespace collision with Javascript. Therefore in actual JSX code attributes like \texttt{class} and \texttt{for} are being replaced with \texttt{className} and \texttt{htmlFor} respectively. The modern web browsers are able to warn programmer when this kind of mistake is made with warning message in developer tools console. 
 
 \section{Redux}
 In the world of single page web applications requirements to manage state have become increasingly complicated. As application gains more complexity, more ui elements and complicated api calls we can easily end up in a loop of events which source may be very hard to find. Of course there will be effort to make it right but it results to even more conditional event handling, thus creating flaws harder to reveal.
@@ -132,7 +132,7 @@ Actions are processed by pure functions called reducers. Reducer takes the curre
 \end{enumerate}
 
 \section{Redux-saga}
-Redux-saga is library providing functions for React/Redux applications which making asynchronous actions like fetching data from external resources easier and better. Saga acts like separate thread which is responsible purely for side effects. Redux-Saga is a Redux middleware, so the thread can be started, paused and canceled via actions dispatched from application. It has also access to the data stored in the Redux store and can dispatch actions to influence it. It uses the ES6 generators functions which make them easier to write and read because the code looks like synchronous Javascript\cite{redux-saga}.
+Redux-saga\cite{redux-saga} is library providing functions for React/Redux applications which making asynchronous actions like fetching data from external resources easier and better. Saga acts like separate thread which is responsible purely for side effects. Redux-Saga is a Redux middleware, so the thread can be started, paused and canceled via actions dispatched from application. It has also access to the data stored in the Redux store and can dispatch actions to influence it. It uses the ES6 generators functions which make them easier to write and read because the code looks like synchronous Javascript.
 
 \subsection{Saga middleware and sagas}
 The sagas are connected to the Redux store through the saga middleware. The middleware has to be created before the store and applied via \texttt{applymiddleware()} function. After application phase of the middleware and successful creation of the Redux store, the middleware can run sagas dynamically by invoking \texttt{middleware.run} with saga as an argument. The middleware will go through the generator and execute all the yielded effects.
@@ -194,7 +194,7 @@ Group of designers and open source enthusiasts have gathered together and create
 Work done by this project becomes a part of an open source project oVirt Web UI. The goal of this project is to build a new basic User Portal \ref{userportal} which is now written as GWT\cite{gwt} application.
 Current version of User Portal does not contain an option to edit or create virtual machines, these features belong only to Administration portal. One of the main goals of this project is to introduce them also to User Portal.
 Dialogs in Administration portal need to update its state of fields after every change made by a user. The update itself can take up to few seconds and if the user works with the application on daily basis it can be pretty frustrating and lower the productivity. 
-The current concept, in which are dialogs developed, also prone to bugs which are caused by a phenomenon called callback hell. The main reason why is this phenomenon hard to implement are big amount of dialog properties which are in very close relation to each other and may influence one another. From long time perspective, maintaining the code base can be very hard and may cause bugs by creating unwanted loops between callbacks. 
+The current concept, in which are dialogs developed, also prone to bugs which are caused by a phenomenon called callback hell\cite{callback_hell}. The main reason why is this phenomenon hard to avoid is a big amount of dialog properties which are in very close relation to each other and may influence one another. From long time perspective, maintaining the code base can be very hard and may cause bugs by creating unwanted loops between callbacks. 
 
 Important fact is to realize that purpose of the application is to provide user a tool that will be able to communicate with oVirt engine as well as the information about stored entities and a way to manage them. Application will not be able to work standalone and will depend on engine data. For development process we have been granted access to an oVirt instance used by oVirt developers in Red Hat.  
 
@@ -207,30 +207,12 @@ Our application will try to solve this problem by fetching as much data as possi
 \end{figure}
 
 \section{Comunication Layer}
-This solution implements two possible backends oVirt Rest API and ManageIQ Rest API. Manage IQ integration of Rest API has only been implemented as a proof of concept demonstrating the possibility of porting the Ovirt Web UI to communicate with ManageIQ. Reasons behind this approach are few problems which disallowed us to implement the same level of functionality as we were able to implement with API provided by oVirt engine. To maintain the transparency between them, layers providing operations against API are developed as separate modules. Each module implements functions needed to fetch or alter the data.
+This solution implements two possible backends oVirt REST API and ManageIQ REST API. Manage IQ integration of REST API has only been implemented as a proof of concept demonstrating the possibility of porting the oVirt Web UI to communicate with ManageIQ. Reasons behind this approach are few problems which disallowed us to implement the same level of functionality as we were able to implement with API provided by oVirt engine. To maintain the transparency between them, layers providing operations against API are developed as separate modules. Each module implements functions needed to fetch or alter the data.
 
-Both APIs have similarities and Operations against APIs are handled in both modules by \texttt{jQuery.ajax()}\cite{ajax} call for HTTP asynchronous request.
+Both APIs have similarities and operations against APIs are handled in both modules by \texttt{jQuery.ajax()}\cite{ajax} call for HTTP asynchronous request.
 Request has to have proper header including \texttt{Authorization} and \texttt{Accept} fields. 
 
-\lstdefinelanguage{json}{
-    basicstyle=\normalfont\ttfamily,
-    numbers=left,
-    numberstyle=\scriptsize,
-    stepnumber=1,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frame=lines
-}
-\bigskip
-\begin{lstlisting}[language=json,xleftmargin=3.5ex,caption={Fetching data from ManageIQ with Basic Authentication},captionpos=b]
-$.ajax(url, {
-      'type': 'GET',
-      'Accept': 'application/json',
-      'Authorization': 'Basic YWRtaW46c21hcnR2bQ==',
-    }).then(data => Promise.resolve(data))
-\end{lstlisting}\label{base}
-\bigskip
+
 
 Recommended authentication method for both platforms is an authentication via token. There is also an option to use basic authentication method for development purposes, where password in only encoded using variant of Base64 as shown in \ref{base}.
 \texttt{Accept} field will use in our case \texttt{application/json} value because it is more suitable data format for Javacript than XML. Modules use several kinds of HTTP protocol methods: 
@@ -245,7 +227,7 @@ Recommended authentication method for both platforms is an authentication via to
 Important part of the communication modules is to convert entities obtained from API to understandable form for front-end. Virtual machine is represented like an object with all properties required for the user. More entities are inserted in a list.
 
 \section{oVirt API}
-Every oVirt instance offers RESP API as another way to manage virtual data centers. An entry point to API is url \texttt{https://<hostaddress>/api} where we can access every available entity. For example to access a list of virtual machines, we have to use \texttt{https://<hostaddress>/api/vms}.
+Every oVirt instance offers RESP API as another way to manage virtual data centers. An entry point to API is url \texttt{https://<hostaddress>/api} where we can access every available entity, url \texttt{https://<hostaddress>/api/vms} is where we can find list of all virtual machines.
 
 Every entity has an unique ID, this ID can be used to access or edit one particular resource identified by the given ID. Internally we also have to pay attention to the type of entity because ID itself is not enough to address a resource. We have to classify the resource before we wake a request. Example for particular request would be the request to edit virtual machine, in which we have to send altered virtual machine data via \texttt{HTTP PUT} method to url \texttt{https://<hostaddress>/api/vms/<vmid>}.
 
@@ -286,26 +268,62 @@ Result of this research shows that the oVirt segment of ManageIQ REST API is not
 
 
 \section{React components}
-The work described to this point of the thesis is practically invisible. The part that must handle user interaction will be implemented in React with state management dedicated to Redux. 
+The work described to this point of the thesis is from user perspective practically invisible. The part that must handle user interaction will be implemented in React with state management interconnected to Redux. 
 
-Dialogs, which are we building have up to 62 fields and there are always new features which can be added to oVirt and need to be configurable. The key to keep dialog modular is to design sub-components which allow us to easily add or remove fields. To achieve this goal we build standalone React components for every type of data we have to handle in dialog.
+Dialogs, which are we building have up to 62 fields representing a virtual machine and its properties. Since oVirt has been adding new features on relatively regular basis we need to provide easy way to include new fields when required. The key to keep dialog modular is to design sub-components which will allow us to easily add or remove fields. To achieve this goal we build standalone React components for every type of data we have to handle inside the dialog.
 
-\texttt{LabeledTextField} is a component designed to obtain text input from a user. Input from user in this case may be represented either as a number or as text. Component is configurable from parent component via \texttt{props} with restrictions secured by \texttt{propTypes}.
-In case of number values a programmer can set \texttt{min} value \texttt{prop}, so for example in case of virtual machine's memory we can make sure that the value is not negative. Another useful \texttt{prop} in case of numerical value is \texttt{step} which allows user to increase or decrease the value inside field by certain amount via small arrow buttons. The amount is decided by programmer but all \texttt{props} have default value which is used in case that programmer does not set given props in parent component. The arrow buttons are the only difference between text and numerical output and also provide good guidance for the user what value is expected.
-Fields with text output are more common which is the reason why is text default  input type. 
+\subsection{Stateless components}
+\texttt{LabeledTextField} is a component designed to obtain text input from a user. Input from user in this case may be represented either as a number or as text.
 
-\texttt{LabeledSelect} component provides user with list of values which can be selected. It features \texttt{selectClass prop} which determines the type of widget that will be used. 
-The first~--~classic option provides user with list of the options with default option pre-selected. This representation is suitable for cases when the list of options is short.
-The other option is similar combo box but with type-aheads. User can simply start to type desired option and if it is available he can select it. Advantage is mainly when selecting operating system for a virtual machine because list is typically longer than height of the screen. Because user is able to type any value, there is always a verification process which checks if the value is really listed as an option. If not, user is notified via notification bubble with warning message specifying which input is wrong even before the date are sent.
+The variant dedicated to the numerical values can be initiated from a parent component by setting prop \texttt{type} to number. As shown in Figure~ \ref{labelledTextField}, the field has arrows which allows user to move numerical value by a certain step. The default step is 1 but I have included dedicated prop \texttt{step} that allow us to configure this value. The minimal value achievable by clicking on arrows can also be restricted by prop \texttt{min}. Those two props are especially useful in case of virtual machine's memory where we can make sure that the value will not be negative and we can set step for example to 256MB which is more convenient increment value for memory. 
+The arrow buttons might also act as a hint pointing to a fact that the field requires a numerical value, especially when filling less known fields.
 
-\texttt{Alert} can display red rectangle window with an error message inside. This component provides transparent and simple demonstration of conditional rendering in React. The only prop passed from parent is message itself. If message contain an empty string, which is also initial state, \texttt{Alert} is rendered only as empty \texttt{<div$\backslash$>} without content or style. 
-Error messages are often result of failed REST API call. Errors are being detected by saga-middleware by examining the code from the server response. As soon as error is detected, saga will dispatch an action with an update which contains error message from server. The message is processed by the corresponding reducer and store is updated. The update is broadcasted to React components which subscribed to updated part of store. In other words error message is displayed to a user immediately after the server response is received without any delays.
+\begin{figure}[h]
+\center{\includegraphics[scale=0.3]{LabelledTextField-number}}
+\caption{LabeledTextField number variant}
+\label{labelledTextField}
+\end{figure} 
 
-\texttt{AddVmDialog} is a component where we take an advantage of all the previously created reusable components. The component is a class inherited from a \texttt{React.Component} which means that the component is stateful. Usage of a stateful variant is allowing us to use the life-cycle methods for proper sub-component initialization via jQuery. The component also needs to read the data from the sub-components which is achievable through \texttt{ref} attributes supported only by the stateful components.
+\texttt{LabeledSelect} component provides the user with a restricted list of values from which he selects only one value. In this component I have included two widgets with different features and look. The type of widget can be configured via \texttt{selectClass} prop. 
 
-The sub-components are prepared in \texttt{AddVmDialog}'s \texttt{render()} method with all required props initiated for each one of them. Since components are reusable they have multiple options configurable via props. Therefore not all the props are required to be used in a parent component, only those which suit our current need. The props also come with the certain restrictions. Each of the sub-components defines its own \texttt{.propType} section with data type restriction and definition, which is describing whether the prop is or is not required. Optional props may acquire default values, e.g. \texttt{placeholder} prop is by default set to the same value as the \textt{label} prop as long as it is not overwritten from parent.
+The first~--~classic widget provides the user with list of the options with default option pre-selected. This representation is suitable for cases when the list of options is short.
 
-The communication between the parent component is achieved through callbacks passed to sub-components via certain attributes. Those attributes are \texttt{ref} and \texttt{onChange}. The \texttt{ref} callback is a pure function which store the input in dialog field to a class property of the parent component. As an suitable example we can use cluster field where callback function is defined \texttt{(input) => { this.cluster = input }}. Therefore the parent component is able to access the value of the cluster field by calling \texttt{this.cluster.value}. The \texttt{onChange} callback defines a function which will be called when change event occur. In conclusion, these callbacks allow us to catch the change event in dialog field, read the data provided by \texttt{ref} and pass the obtained value to the Redux store.
+The other widget gives us different look and adds the type-ahead functionality (Figure \ref{labelledSelect}). User can simply start to type desired option and if it is available he can select it. The biggest advantage of the type-ahead functionality is maily in bigger lists of data where the values may be found much quicker compared to classic list. On the other hand there is a little disadvantage from the user perspective. Considering that user is able to type any value, I have implemented a verification process which checks if the value is really listed as an option. If not, user is notified via notification bubble with warning message specifying which field is wrong even before the data has been sent.
+
+\begin{figure}[h]
+\center{\includegraphics[scale=0.3]{LabeledSelect}}
+\caption{LabeledSelect example with demonstration of type-ahead functionality}
+\label{labelledSelect}
+\end{figure} 
+
+\texttt{Alert} can display red rectangle window with an error message inside. This component provides a transparent and simple demonstration of conditional rendering in React. The only prop passed from parent is the message itself. If the message contain an empty string, which is also initial state, \texttt{Alert} is rendered only as empty \texttt{<div$\backslash$>} without content or style. 
+The error messages are in this case often result of failed REST API call. The errors are being detected by saga-middleware by examining the code from the server response. As soon as error is detected, saga will dispatch an action with an update which contains the error message from server. The message is processed by the corresponding reducer and store is updated. The update is broadcasted to React components which subscribed to updated part of store. In other words error message is displayed to a user immediately after the server response is received without any delays as shown in Figure \ref{alert}.
+
+\begin{figure}[h]
+\center{\includegraphics[scale=0.5]{alert}}
+\caption{Error message from API displayed by error}
+\label{alert}
+\end{figure}
+
+\texttt{LabeledSwitch} is an component dedicated to representation of boolean values. Like the previous components, it consists of two parts. A modern looking switch button which clearly describes two of possible states on or off and a label describing the feature which it configures in dialog. The component implementation is not adjusted to React yet, so we had to use the jQuery in the same manner like  we used in case of the \texttt{LabeledSelect} component. Similarly we had to use \texttt{componentDidMount} life-cycle method to initialize the component via custom method \texttt{bootstrapSwitch()}. Also the \texttt{onChange} callback within the React component cannot be used for triggering updates to the Redux store. The solution for correct detection and distribution of the changes made by user was the custom callback via jQuery triggered by \texttt{switchChange.bootstrapSwitch} event. But compared to the \texttt{LabeledText} the behavior was slightly different because we were not able to access proper state of the switch button via \texttt{ref} prop like we did in case of the other components. The value provided by the \texttt{ref} was \texttt{true} even though the switch was turned off. To solve this particular problem I had to examine the code of the widget itself and I discovered that the state is passed as an argument for every triggered \texttt{switchChange.bootstrapSwitch} event. This discovery allowed us to properly change the implemented callback which now can dispatch the state of the component right to the store.
+
+
+\subsection{Stateful components}
+\texttt{AddVmDialog} is a React component that implements our dialog representing a virtual machine and its configurable properties. The component can be used either to create or to edit a virtual machine. The dialog variant is determined by a value from the Redux store. The create virtual machine variant renders most of the fields empty, except special cases like cluster field where the pre-selected cluster is always the first cluster provided by the connected oVirt engine. Other fields like template, operating system, memory and cpu number are taken from the Blank template which is the default template for every cluster. The second variant is pre-filled with values from the virtual machine which is being edited.
+ 
+This dialog component is where we take an advantage of all the previously mentioned reusable sub-components. The difference between the \texttt{AddVmDialog} and previously described components is the fact that component is stateful whereas the others were stateless. This means that the component is created as a class which inherits from \texttt{React.Component}. Usage of a stateful variant is allowing us to use the life-cycle methods for proper sub-component initialization via jQuery. The component also needs to read the data from the sub-components which is achievable through \texttt{ref} attributes supported only by the stateful components.
+
+The sub-components are placed in \texttt{AddVmDialog}'s \texttt{render()} method with all required props initiated for each one of them. Since components are reusable they have multiple options configurable via props. Therefore not all the props are required to be used in a parent component, only those which suit our current need. The props also come with the certain restrictions. Each of the sub-components defines its own \texttt{.propType} section with data type restriction and definition, which is describing whether the prop is or is not required. Optional props may acquire default values, e.g. \texttt{placeholder} prop is by default set to the same value as the \texttt{label} prop as long as it is not overwritten from parent.
+
+The communication between the parent component is achieved through callbacks passed to sub-components via certain attributes (props). Those attributes are \texttt{ref} and \texttt{onChange}. The \texttt{ref} callback is a pure function which store the input in dialog field to a class property of the parent component. As an suitable example we can use cluster field where callback function is defined by following statement: \texttt{(input) => \{this.cluster = input\}}. Therefore the parent component is able to access the value of the cluster field by calling \texttt{this.cluster.value}. The \texttt{onChange} callback defines a function which will be called when change event occurs. In conclusion, these callbacks allow us to catch the change event in dialog field, read the data provided by \texttt{ref} and pass the obtained value to the Redux store.
+
+The sub-component's props are not only the callbacks. The props are also used to carry values which are supposed to be rendered by a sub-component. This apply primarily to default values, placeholders and labels. The dialog is also using the props to configure the sub-components. 
+
+The special case is \texttt{LabeledSelect} where the list of values rendered to user is passed via prop. To properly describe the problem I will be using the example which is implemented in the project. The dialog has a field which represents a list of templates. Each template depends on certain cluster (template Blank is an exception). In our dialog we know exactly which cluster is selected because we have this information stored in Redux store. Since we want to provide a user with valid data, it is necessary to render only the list of templates which applies to the selected cluster. This is achieved by a pure function which compares the ID of selected cluster with cluster ID stored in every loaded template. Afterwards, the filtered list of templates is sorted and sent to the \texttt{LabeledSelect} component.
+
+The dialog always renders the data stored in Redux store in section \texttt{addVmDialog}. This is achieved by mapping the props of our dialog to a redux store state inside a \texttt{connect} method provided by react-redux library. 
+
+\texttt{editTemplateDialog} is a second stateful React entity implemented in this project. The purpose of the dialog is to choose from the list of the templates provided by oVirt engine and to edit properties of single selected template. The implementation of this dialog has less fields but serves as a demonstration of transparency provided by designed React components. The added value is in another additional functionality brought to the oVirt-web-ui project. 
 
 \section{Patternfly integration and design}
 All React components and HTML related content are using styles provided by Patternfly. It is accessible via dedicated npm module which needs to be included to gain access to styles and widgets. Not all widgets are included by default, the more complicated widgets that are using Javascript or jQuery have its own npm module which also need to be included. In our project it was the case of \texttt{LabeledSelect} which is using Javascript to secure type-ahead functionality.
