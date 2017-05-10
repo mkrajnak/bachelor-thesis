@@ -13,7 +13,7 @@ Redux is technology designed especially for state management of React\cite{React
 React allows us to create presentional part of application. Similiarly like Redux, React itself has mechanisms to manage state of components, but as our application expands, large number of components may cause problems which lead to birth of Redux. This project is developed with open source spirit and so is the project design delivered by Patternfly\cite{Patternfly} library of elements.
 
 \chapter{oVirt}
-oVirt is an open source virtualization management tool that provides centralized management of virtual datacenters, hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts - an oVirt engine and one or more oVirt nodes.
+oVirt is an open source virtualization management tool that provides centralized management of virtual datacenters, hosts, virtual machines, storage and networking infrastructure. oVirt platform consists of two main parts -- an oVirt engine and one or more oVirt nodes.
 
 
 \section{oVirt engine}
@@ -93,7 +93,7 @@ Some services require amount of input from user like memory and disk size in cas
 \section{Compliance}
 With ManageIQ administrators also have a tool for enforcing policies to discovered entities. When user deploy his own system via self-service administrator has at least some amount of control given back.
 
-But ManageIQ give the administrators even bigger power with SmartState Analyses(SSA) technology. It allows to define rules for content of virtual machines, hypervisors and containers. SSA is able to discover configurations, logs and even package databases and store them directly to VMDB. SSA is implemented agent-less, it access the disks of systems via platform-specific APIs, usually snapshots or backup APIs. Disks cannot be safely mounted by Linux kernel, so ManageIQ implements its own Ruby-based read-only file system that access disks from user space. The agent-less implementation provide a big advantage that guests are not required to be cooperative so SSA works even on virtual machines which are currently shut down.
+But ManageIQ give the administrators even bigger power with SmartState Analyses (SSA) technology. It allows to define rules for content of virtual machines, hypervisors and containers. SSA is able to discover configurations, logs and even package databases and store them directly to VMDB. SSA is implemented agent-less, it access the disks of systems via platform-specific APIs, usually snapshots or backup APIs. Disks cannot be safely mounted by Linux kernel, so ManageIQ implements its own Ruby-based read-only file system that access disks from user space. The agent-less implementation provide a big advantage that guests are not required to be cooperative so SSA works even on virtual machines which are currently shut down.
 
 \chapter{Javascript Technologies}
 
@@ -102,53 +102,53 @@ React is an open source Javacript library dedicated to user interfaces. Applicat
 
 There are two types of React components\cite{React}:
 \begin{enumerate}
-\item \textbf{Stateless components} have no state management they usually take props data and return what will actually be rendered on page. The best way to define them might be via ES6 arrow functions\cite{arrowFunctions} but \texttt{React.Component} class with only \texttt{render()} function is also a possible solution.
+\item \textbf{Stateless components} have no state management, they usually take props data and return what will actually be rendered on a page. The best way to define them might be via ES6 arrow functions\cite{arrowFunctions} but \texttt{React.Component} class with only \texttt{render()} function is also a possible solution.
 
-\item \textbf{Stateful components} provide full state management with option to use component life-cycle methods. Any change of state will cause re-invoking of \texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in constructor.
+\item \textbf{Stateful components} provide the full state management with an option to use component life-cycle methods. Any change of state will cause re-invoking of \texttt{render()} method and update of data presented on page. Every component of this kind should also define its initial state in a constructor that is compulsory.
+Life-cycle of statefull components is controlled by life-cycle functions which are called on certain events (component update) in an specific order.
 \end{enumerate}
 
-Typical React work-flow is to create stateful component containing multiple stateless components and pass them data via \texttt{props}. Good practice is to define \texttt{PropTypes} to make sure that correct data types are being passed to our component and even \texttt{DefaultProps} which will be used is case that value is not defined in \texttt{props}. 
+Typical React work-flow is to create a stateful component containing multiple stateless components and pass them the data via \texttt{props}. A good practice is to define \texttt{PropTypes} to make sure that the correct data types are being passed to our component and even \texttt{DefaultProps} which will be used in case that value is not defined in \texttt{props}. 
 
 \subsection{JSX} 
-JSX\cite{JSX} is an Javascript extension recommended to be used with React. It looks like actual HTML with dynamic data from React variables. JSX has series of advantages:
+JSX\cite{JSX} is an Javascript extension recommended to be used with React. The implementation looks like actual HTML with the dynamic data from React variables. JSX has series of advantages:
 \begin{itemize}
-\item faster writing of HTML templates and better understanding of what will actually be rendered
-\item there is an optimization while code is being compiled to Javascript which gives better run-time performance
-\item it is type-safe so there is significant amount of error detected during compilation
+\item faster writing of HTML templates and better understanding of what content will actually be rendered
+\item there is an optimization while code is being compiled to Javascript which gives it a better run-time performance
+\item it is type-safe, so there is significant amount of error detected during compilation
 \end{itemize}  
 
-One of the limitations of JSX is a fact that some of the XML tag attributes are in namespace collision with Javascript. Therefore in actual JSX code attributes like \texttt{class} and \texttt{for} are being replaced with \texttt{className} and \texttt{htmlFor} respectively. The modern web browsers are able to warn programmer when this kind of mistake is made with warning message in developer tools console. 
+One of the limitations of JSX is a fact that some of the XML tag attributes are in namespace collision with Javascript. Therefore in actual JSX code attributes like \texttt{class} and \texttt{for} are being replaced with \texttt{className} and \texttt{htmlFor}, respectively. The modern web browsers are able to warn programmer when this kind of mistake is made with warning message in developer tools console. 
 
 \section{Redux}
-In the world of single page web applications requirements to manage state have become increasingly complicated. As application gains more complexity, more ui elements and complicated api calls we can easily end up in a loop of events which source may be very hard to find. Of course there will be effort to make it right but it results to even more conditional event handling, thus creating flaws harder to reveal.
+In the world of single page web applications requirements to manage state have become increasingly complicated. As application gains more complexity, more user interface elements and complicated API calls we can easily end up in a loop of events which source may be very hard to find. Of course there will be effort to make it right but it results to even more conditional event handling, thus created flaws are harder to reveal.
 
-Redux is represented as read-only tree of states called store. Every piece of data in store are describing the current state of application. The only way to change the state is to dispatch an action. Actions are predefined pure functions, therefore we can easily predict actual change of state just from knowing dispatched action.
+Redux is represented as a read-only tree of states called store. Every piece of data in store are describing the current state of application. The only way to change the state is to dispatch an action. Actions are predefined pure functions, therefore we can easily predict an actual change of state just from knowing dispatched action.
 
-Actions are processed by pure functions called reducers. Reducer takes the current state and the action and returns a new state without mutation of previous state. Because reducers are only functions, we are able to achieve specific state by dispatching right actions in right order. To conclude, Redux is based on tree principles\cite{treePrinciples}:
+Actions are processed by pure functions called reducers. Reducer takes the current state and the action and returns a new state without mutation of the previous state. Because reducers are only functions, we are able to achieve specific state by dispatching right actions in right order. To conclude, Redux is based on three principles\cite{treePrinciples}:
 \begin{enumerate}
-\item Single store of truth -- whole application state is stored within single tree
-\item Store is read-only -- the only way to make a change is to dispatch an object describing the change(action)
+\item Single store of truth -- the whole application state is stored within single tree
+\item Store is read-only -- the only way to make a change is to dispatch an object describing the change (action)
 \item Changes are made by pure functions -- reducers 
 \end{enumerate}
 
 \section{Redux-saga}
-Redux-saga\cite{redux-saga} is library providing functions for React/Redux applications which making asynchronous actions like fetching data from external resources easier and better. Saga acts like separate thread which is responsible purely for side effects. Redux-Saga is a Redux middleware, so the thread can be started, paused and canceled via actions dispatched from application. It has also access to the data stored in the Redux store and can dispatch actions to influence it. It uses the ES6 generators functions which make them easier to write and read because the code looks like synchronous Javascript.
+Redux-saga\cite{redux-saga} is a library providing functions for React/Redux applications which makes asynchronous actions like fetching data from external resources easier and better. Saga acts like separate thread which is responsible purely for side effects. Redux-Saga is a Redux middleware, so the thread can be started, paused and canceled via actions dispatched from application. It has also access to the data stored in the Redux store and can dispatch actions to influence it. The implementation is much easier thanks to the ES6 generator functions which make them easier to write and read because the code looks like synchronous Javascript.
 
-\subsection{Saga middleware and sagas}
-The sagas are connected to the Redux store through the saga middleware. The middleware has to be created before the store and applied via \texttt{applymiddleware()} function. After application phase of the middleware and successful creation of the Redux store, the middleware can run sagas dynamically by invoking \texttt{middleware.run} with saga as an argument. The middleware will go through the generator and execute all the yielded effects.
+\subsection{Saga middleware and sagas} \label{helpers}
+The sagas are connected to the Redux store through the saga middleware. The middleware has to be created before the store and applied via \texttt{applymiddleware()} function. After application phase of the middleware and successful creation of the Redux store, the middleware can run sagas dynamically by invoking \texttt{middleware.run()} with saga as an argument. The middleware will go through the generator and execute all the yielded effects.
 
-Sagas are functions which return a generator object. The saga-library provides also various effects which allows us to start other sagas. The first iteration of the middleware invoked the \texttt{next()} method. Yielded effects will be executed by the middleware according to effects API which specifies how will the middleware execute the sagas. While the effect is being executed, the generator is suspended. After receiving the result of the execution, the generator will call again the \texttt{next{result}} with the result as an argument. This process of the effects execution is repeated until the generator is terminated normally or by throwing some error. Saga can be also canceled either by effects or manually. Effects executions which result in error will case invocation of \texttt{throw(error)} method of the generator. Also
-if the currently executed \texttt{yield} instruction is wrapped inside \texttt{try/catch/finally} block and error, the catch block will be executed followed by corresponding finally block.\cite{redux-saga-api}
+Sagas are functions which return a generator object. The saga-library provides also various effects which allows us to start other sagas. The first iteration of the middleware invoked the \texttt{next()} method. The yielded effects will be executed by the middleware according to effects API which specifies how will the middleware execute the sagas. While the effect is being executed, the generator is suspended. After receiving the result of the execution, the generator will call again the \texttt{next(result)} with the result as an argument. This process of the effects execution is repeated until the generator is terminated normally or by throwing some error. Saga can be also canceled either by effects or manually. Effect's executions which result in an error will cause invocation of \texttt{throw(error)} method of the generator. Also if the currently executed \texttt{yield} instruction is wrapped inside a \texttt{try/catch/finally} block and an error appears, the catch block will be executed followed by corresponding \texttt{finally} block.\cite{redux-saga-api}
 
 \subsection{Effect creators}
-The following functions does not perform any execution and each one of them returns a plain Javascript object. The execution is performed by the middleware which examines the effect description and perform appropriate actions.
+The following functions do not perform any executions and each one of them returns a plain Javascript object. The execution is performed by the middleware which examines the effect description and performs appropriate actions.
 
-\texttt{take(pattern)} creates an effect which instruct the middleware to wait until the action with desired \texttt{pattern} is dispatched to the store. The pattern is interpreted be the following rules: 
+\texttt{take(pattern)} creates an effect which instructs the middleware to wait until the action with desired \texttt{pattern} is dispatched to the store. The pattern is interpreted be the following rules: 
 
 \begin{itemize}
-\item no arguments or pattern equals to a \texttt{'*'} means that all action are suitable and every dispatched action is matched
+\item no arguments or pattern equals to a \texttt{'*'} means that all actions are suitable and every dispatched action is matched
 \item in case that the pattern argument is a function, an incoming action has to be evaluated by the given function as true
-\item when pattern is a string, is has to match \texttt{action.type}
+\item when pattern is a string, it has to match \texttt{action.type}
 \item in case that the pattern is an array, there are two possible cases:
 
 \begin{itemize}
@@ -157,25 +157,25 @@ The following functions does not perform any execution and each one of them retu
 \end{itemize}  
 \end{itemize}  
 
-The middleware also comes with a way to terminate all the sagas blocked on take effect which can be done by dispatching a special action\texttt{END}. Exceptions are sagas that have in that particular moment forked tasks. These sagas have to wait for children to end their tasks before terminating themselves.
+The middleware also comes with a way to terminate all the sagas blocked on \texttt{take} effect which can be done by dispatching a special action \texttt{END}. Exceptions are sagas that have, in that particular moment, forked tasks. These sagas have to wait for children to end their tasks before terminating themselves.
 
-\texttt{put(action)} creates an effect which instructs the middleware to dispatch a provided action to the store. The effect is non-blocking and the saga will not receive any thrown error feedback from a reducer. On the other hand texttt{put.resolve(action)} is a variant of the effect which will wait until a Promise returned from reducer dispatch is resolved.
+\texttt{put(action)} creates an effect which instructs the middleware to dispatch a provided action to the store. The effect is non-blocking and the saga will not receive any thrown error feedback from a reducer. On the other hand \texttt{put.resolve(action)} is a variant of the effect which will wait until a promise returned from reducer is resolved.
 
-\texttt{call(fn, ...args)} creates an effect that instructs middleware to call the \texttt{fn} function with provided \texttt{args}. The passed function can be both generator function or normal function. The middleware will not only run the function but it also examines the result. The result can be a promise, an iterator function, a value. All tree cases have different behavior:
+\texttt{call(fn, ...args)} creates an effect that instructs the middleware to call the \texttt{fn} function with provided \texttt{args}. The passed function can be both generator function or normal function. The middleware will not only run the function but it also examines the result. The result can be a promise, an iterator function or a value. All three cases have different behavior:
 \begin{itemize}
-\item iterator object(generator) -- a parent generator is paused until the child generator finishes its task, the parent generator is resumed with the value returned by the child
+\item iterator object (generator) -- a parent generator is paused until the child generator finishes its task, the parent generator is resumed with the value returned by the child
 \item promise -- a generator is  suspended until the promise is resolved or rejected
 \item value -- the middleware returns value back to saga so it can continue its execution
 \end{itemize}  
 
 \subsection{Saga helper functions}
-Saga helpers are function build on top of the action creators described above, maily \texttt{fork} and \texttt{take}.
+Saga helpers are functions built on top of the action creators described above, mainly \texttt{fork} and \texttt{take}.
 
-\texttt{takeEvery} is a helper function that spawn a saga on each action dispatched to the Store that matches certain pattern. It allows to write concurrent action that are handled as many times as action was dispatched, which means that new saga is started every time, even the previous sagas has not yet ended. There is also a race condition problem because there is no guarantee that saga will be terminated in the same order in which they have started.
+\texttt{takeEvery} is a helper function that spawns a saga on each action dispatched to the store that matches certain pattern. It allows to write concurrent action that is handled as many times as action was dispatched, which means that new saga is started every time, even the previous sagas has not ended yet. There is also a race condition problem because there is no guarantee that saga will be terminated in the same order in which they have been started.
 
-\texttt{takeLatest} also spawns a saga each time an action with a pattern is dispatched with one major difference. The previously started sagas which has not been terminated yet, are automatically canceled. So if saga is listening for an action with certain pattern and user triggers the action multiple times, an old request is obsoleted by a new one. Of course this is only true in case that the old request has not finished yet.
+\texttt{takeLatest} also spawns a saga each time an action with a pattern is dispatched with one major difference. The previously started sagas which has not been terminated yet, are automatically canceled. So if saga is listening for an action with a certain pattern and user triggers the action multiple times, an old request is obsoleted by a new one. Of course this is only true in case that the old request has not been finished yet.
 
-\texttt{throttle} listens to dispatched actions and spawn sagas when the action is received with one difference from the other two helper functions. After receiving the first action it will hold the execution of incoming action by certain time. Actions that has been received during given time are placed in a sliding buffer which means that only one most recent action will be kept. This is particularly useful in cases when we want to prevent our server from being flooded by requests.
+\texttt{throttle} listens to dispatched actions and spawn sagas when the action is received with one difference from the other two helper functions. After receiving the first action it will hold the execution of incoming action by certain time. Actions that have been received during given time are placed in a sliding buffer which means that only one most recent action will be kept. This is particularly useful in cases when we want to prevent our server from being flooded by requests.
 
 \section{Redux-devtools}
 As application state grows it may become pretty unclear what actions are being dispatched, when and how are they affecting the state. Using Javascript console for debugging might be confusing and even mislead us.
@@ -200,19 +200,11 @@ Important fact is to realize that purpose of the application is to provide user 
 
 Our application will try to solve this problem by fetching as much data as possible right from the start with shallow updates scheduled for every minute. With all required data saved in Redux store, we can take advantage of proposed technologies and manage the state of dialogs.
 
-\begin{figure}[h]
-\center{\scalebox{1}{\includegraphics{application_architecture.eps}}}
-\caption{Application architecture}
-\label{vector}
-\end{figure}
-
 \section{Comunication Layer}
 This solution implements two possible backends oVirt REST API and ManageIQ REST API. Manage IQ integration of REST API has only been implemented as a proof of concept demonstrating the possibility of porting the oVirt Web UI to communicate with ManageIQ. Reasons behind this approach are few problems which disallowed us to implement the same level of functionality as we were able to implement with API provided by oVirt engine. To maintain the transparency between them, layers providing operations against API are developed as separate modules. Each module implements functions needed to fetch or alter the data.
 
 Both APIs have similarities and operations against APIs are handled in both modules by \texttt{jQuery.ajax()}\cite{ajax} call for HTTP asynchronous request.
 Request has to have proper header including \texttt{Authorization} and \texttt{Accept} fields. 
-
-
 
 Recommended authentication method for both platforms is an authentication via token. There is also an option to use basic authentication method for development purposes, where password in only encoded using variant of Base64 as shown in \ref{base}.
 \texttt{Accept} field will use in our case \texttt{application/json} value because it is more suitable data format for Javacript than XML. Modules use several kinds of HTTP protocol methods: 
@@ -264,8 +256,19 @@ Performance and speed is also not quite sufficient compared to oVirt API. The wa
 
 Result of this research shows that the oVirt segment of ManageIQ REST API is not yet ready for integration. The small part that was implemented and tested is not ready for user, because it misses key actions and data. We also have to mention the security problem with wrong header for OPTION method.
 
-\section{Saga middleware operations}
+\section{Saga middleware}
+The interconnection between proposed API modules, Redux store and React components is made by Redux-Saga middleware. Right after the start of the application the created \texttt{sagaMiddleware} is applied to the store which means that from now on, it can properly run our sagas. The sagas are generator functions which allow us to make the code look more synchronous and prevent from creation of callback hell.
 
+All created sagas are focused in a separate module \texttt{sagas.js}. Since we need to use more than one saga and running multiple sagas by the middleware might be quite unefficient, we will make one main \texttt{rootSaga}. The \texttt{rootSaga} is also a generator function which yields a list of saga helper functions \texttt{takeEvery} and \texttt{takeLatest}. Those helper functions map every created saga to a specific action which allow us to spawn one of the predefined sagas by dispatching an action. The behavior of spawned saga also depends on kind of provided helper function as described in \ref{helpers}. Dispatching an action is not the only way to spawn a saga, but I prefer it this way because of easier debugging through the Redux-devtools. The difference between generator functions and classic callbacks is that generators remain paused until the effect is resolved which is the main advantage for preventing the callback hell.
+
+With all our generators prepared we can continue with the execution of the application. Assuming that we are using the development mode and we are logged in, the application will start to fetch the data from the oVirt engine. The process begins by calling \texttt{login} generator which will go step by step through series of generators fetching lists of all clusters, templates and virtual machines. Each one of mentioned generators are using local API instance that provides methods for fetching the data and their conversion to internal representation. Upon successful data retrieval and conversion, the data is dispatched to the store via specific actions. Those actions are processed by the corresponding reducers and saved to the Redux store. Part of this workflow is displayed on 
+Figure \ref{app_architecture}.
+
+\begin{figure}[h]
+\center{\scalebox{1}{\includegraphics{application_architecture.eps}}}
+\caption{Application architecture}
+\label{app_architecture}
+\end{figure}
 
 \section{React components}
 The work described to this point of the thesis is from user perspective practically invisible. The part that must handle user interaction will be implemented in React with state management interconnected to Redux. 
@@ -305,8 +308,13 @@ The error messages are in this case often result of failed REST API call. The er
 \label{alert}
 \end{figure}
 
-\texttt{LabeledSwitch} is an component dedicated to representation of boolean values. Like the previous components, it consists of two parts. A modern looking switch button which clearly describes two of possible states on or off and a label describing the feature which it configures in dialog. The component implementation is not adjusted to React yet, so we had to use the jQuery in the same manner like  we used in case of the \texttt{LabeledSelect} component. Similarly we had to use \texttt{componentDidMount} life-cycle method to initialize the component via custom method \texttt{bootstrapSwitch()}. Also the \texttt{onChange} callback within the React component cannot be used for triggering updates to the Redux store. The solution for correct detection and distribution of the changes made by user was the custom callback via jQuery triggered by \texttt{switchChange.bootstrapSwitch} event. But compared to the \texttt{LabeledText} the behavior was slightly different because we were not able to access proper state of the switch button via \texttt{ref} prop like we did in case of the other components. The value provided by the \texttt{ref} was \texttt{true} even though the switch was turned off. To solve this particular problem I had to examine the code of the widget itself and I discovered that the state is passed as an argument for every triggered \texttt{switchChange.bootstrapSwitch} event. This discovery allowed us to properly change the implemented callback which now can dispatch the state of the component right to the store.
+\texttt{LabeledSwitch} is an component dedicated to representation of boolean values. Like the previous components, it consists of two parts. A modern looking switch button (Figure \ref{switch}) which clearly describes two of possible states on or off and a label describing the feature which it configures in dialog. The component implementation is not adjusted to React yet, so we had to use the jQuery in the same manner like  we used in case of the \texttt{LabeledSelect} component. Similarly we had to use \texttt{componentDidMount} life-cycle method to initialize the component via custom method \texttt{bootstrapSwitch()}. Also the \texttt{onChange} callback within the React component cannot be used for triggering updates to the Redux store. The solution for correct detection and distribution of the changes made by user was the custom callback via jQuery triggered by \texttt{switchChange.bootstrapSwitch} event. But compared to the \texttt{LabeledText} the behavior was slightly different because we were not able to access proper state of the switch button via \texttt{ref} prop like we did in case of the other components. The value provided by the \texttt{ref} was \texttt{true} even though the switch was turned off. To solve this particular problem I had to examine the code of the widget itself and I discovered that the state is passed as an argument for every triggered \texttt{switchChange.bootstrapSwitch} event. This discovery allowed us to properly change the implemented callback which now can dispatch the state of the component right to the store.
 
+\begin{figure}[h]
+\center{\includegraphics[scale=0.3]{LabeledSwitch}}
+\caption{LabaledSwitch for Smart card option}
+\label{switch}
+\end{figure}
 
 \subsection{Stateful components}
 \texttt{AddVmDialog} is a React component that implements our dialog representing a virtual machine and its configurable properties. The component can be used either to create or to edit a virtual machine. The dialog variant is determined by a value from the Redux store. The create virtual machine variant renders most of the fields empty, except special cases like cluster field where the pre-selected cluster is always the first cluster provided by the connected oVirt engine. Other fields like template, operating system, memory and cpu number are taken from the Blank template which is the default template for every cluster. The second variant is pre-filled with values from the virtual machine which is being edited.
@@ -326,9 +334,9 @@ The dialog always renders the data stored in Redux store in section \texttt{addV
 \texttt{editTemplateDialog} is a second stateful React entity implemented in this project. The purpose of the dialog is to choose from the list of the templates provided by oVirt engine and to edit properties of single selected template. The implementation of this dialog has less fields but serves as a demonstration of transparency provided by designed React components. The added value is in another additional functionality brought to the oVirt-web-ui project. 
 
 \section{Patternfly integration and design}
-All React components and HTML related content are using styles provided by Patternfly. It is accessible via dedicated npm module which needs to be included to gain access to styles and widgets. Not all widgets are included by default, the more complicated widgets that are using Javascript or jQuery have its own npm module which also need to be included. In our project it was the case of \texttt{LabeledSelect} which is using Javascript to secure type-ahead functionality.
+All React components and HTML related content are using styles provided by Patternfly. The library itself is accessible via dedicated npm module which needs to be included to gain access to styles and widgets. Not all widgets are included by default, the more complicated widgets that are implemented in Javascript and require jQuery have its own npm module which need to be included separately. In our project we have included few additional modules. A \texttt{bootstrap-combobox} module which implements the \texttt{LabeledSelect} type-ahead functionality and a \texttt{bootstrap-select} module used by simpler variant of the \texttt{LabeledSelect}. The last included module is \texttt{bootstrap-switch} and it provides the foundation for the switch button used in the \texttt{LabeledSwitch} component.
 
-The combination of React and jQuery is the source of multiple implementation problems in front-end. As user is going through dialogs fields, they have to reflect choices he has already made. List of options in \texttt{LabeledSelect} component has to be properly re~-~rendered e.g. when needed. In order to re-render component which is using jQuery we have to use of the React life-cycle methods, to be specific \texttt{componentDidMount()} and \texttt{componentDidUpdate()} method. Every component using jQuery has a specific method which need to be called initially for component to properly render and work. These methods must be called from mentioned life-cycle. Thanks to this whenever user make a choice, Redux store will be update. If this change apply to part of store mapped to React component that is using jQuery, \texttt{componentDidUpdate()} is called and widget has a new list of values. 
+The combination of React and jQuery is the source of multiple implementation problems in front-end. As user is going through dialogs fields, they have to reflect choices he has already made. List of options in \texttt{LabeledSelect} component has to be properly re-rendered e.g. when needed. In order to re-render component which is using jQuery we have to use of the React life-cycle methods, to be specific \texttt{componentDidMount()} and \texttt{componentDidUpdate()} method. Every component using jQuery has a specific method which need to be called initially for component to properly render and work. These methods must be called from mentioned life-cycle. Thanks to this whenever user make a choice, Redux store will be update. If this change apply to part of store mapped to React component that is using jQuery, \texttt{componentDidUpdate()} is called and widget has a new list of values. 
 Determine the method which initiate the jQuery work-flow in case of type-ahead variant of \texttt{LabeledSelect} wasn't simple. But we took advantage of a fact that Patternfly is an open source project, so we had to go through the code where we were able to find the right \texttt{combobox()} method, which initializes the component properly.
 
 Styles for simple widgets like buttons or headings are added by providing HTML element with attribute \texttt{class} or \texttt{className} in case of JSX. List of classes with demonstrations can be found on Patternfly website\cite{Patternfly}. 

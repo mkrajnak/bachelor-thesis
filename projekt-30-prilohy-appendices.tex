@@ -20,3 +20,42 @@
 \includegraphics[page=2, width=1.05\textwidth, angle=0]{DependencyGraph}
 \newpage
 \includegraphics[page=3, width=1.05\textwidth, angle=0]{DependencyGraph}
+
+\chapter{Installation guide} \label{install}
+
+\section{Prerequisites}
+Note: Work done by this thesis have partially been included in oVirt 4.1 release. To run the application in the most present version, it is recommended to use the development mode with engine url. 
+
+\begin{enumerate}
+\item An oVirt engine running with configured hosts, disks and networks.  
+\item A ManageIQ instance running and configured to manage the oVirt engine (ManageIQ variant - read only mode)
+\end{enumerate} 
+
+\section{oVirt API variant installation - Fedora/Red Hat Enterprise Linux}
+\begin{enumerate}
+
+\item Copy the contents of attached CD 
+\item Open terminal
+\item Navigate to directory of copied content
+\item Make sure that you are in correct folder (oVirt API) \texttt{cd ovirt-web-ui}
+\item Make sure npm is installed \texttt{yum install npm}
+\item Install yarn \texttt{npm install yarn}
+\item Install all project dependencies by running \texttt{yarn install}
+\item Run oVirt-web-ui \texttt{ENGINE\char`_URL=https://engine\char`_address yarn start} (change the url to your oVirt engine)
+\item Firefox window should automatically open with application, if not application url should be displayed in output of terminal window)
+
+\end{enumerate} 
+\section{ManageIQ API variant installation - Fedora/Red Hat Enterprise Linux}
+\begin{enumerate}
+
+\item Copy the contents of attached CD 
+\item Open terminal
+\item Navigate to directory of copied content
+\item Make sure that you are in correct folder (ManageIQ API) \texttt{cd manageiq}
+\item Make sure npm is installed \texttt{yum install npm}
+\item Install yarn \texttt{npm install yarn}
+\item Install and update all required project dependencies by running \texttt{yarn install}
+\item Run oVirt-web-ui \texttt{ENGINE\char`_URL=https://engine\char`_address yarn start} (change the url to your oVirt engine)
+\item Firefox window should automatically open with application, if not application url should be displayed in output of terminal window)
+
+\end{enumerate} 
