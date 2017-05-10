@@ -265,7 +265,7 @@ With all our generators prepared we can continue with the execution of the appli
 Figure \ref{app_architecture}.
 
 \begin{figure}[h]
-\center{\scalebox{1}{\includegraphics{application_architecture.eps}}}
+\center{\scalebox{0.95}{\includegraphics{application_architecture.eps}}}
 \caption{Application architecture}
 \label{app_architecture}
 \end{figure}
@@ -341,8 +341,17 @@ Determine the method which initiate the jQuery work-flow in case of type-ahead v
 
 Styles for simple widgets like buttons or headings are added by providing HTML element with attribute \texttt{class} or \texttt{className} in case of JSX. List of classes with demonstrations can be found on Patternfly website\cite{Patternfly}. 
 
-\section{Future development}
+\section{Testing}
 
-\chapter{Conclusion}
+\chapter{Conclusion and future development}
+The goal of this thesis was to design and implement a generic configuration interface for virtual machines and embed it to oVirt Web Admin. The development focus is being shifted to oVirt Web UI project with probability that oVirt WebAdmin will be completely obsoleted in future. For this particular reason the proposed solution was embedded to the oVirt Web UI instead.
 
+The solution has mapped all properties of virtual machine which is the biggest entity from the configuration standpoint. All dependencies and constraints were documented to the graph (Appendix \ref{graph}) which can possibly help with project development in future because the only source of this data shown in graph is the source code of the oVirt engine.
+
+The implemented back-end module is able to download list of virtual machines, templates and clusters. The module also include methods which convert these entities to their individual internal representations. Furthermore, it contains methods for creating and editing virtual machines and also other methods which mostly secure the communication with the oVirt engine.
+
+The thesis has also made a small research by experimentally implementing an alternative back-end module which use the ManageIQ's REST API instead of the oVirt's REST API. The result of research has proven that the ManageIQ's REST API is not on the same level as the oVirt's REST API. Additionally, the research lead to a discovery of bug caused by wrong CORS implementation. This discovery might help to improve the ManageIQ project in future.
+
+I was also able to test two possible solutions for state management of dialogs in Javascript. The first solution was to store the dialog's data to the Redux store. The advantage of this solution is ability to use the ES6 generator function known as sagas which prevent us from creation of callback hell.
+ 
 %=========================================================================
