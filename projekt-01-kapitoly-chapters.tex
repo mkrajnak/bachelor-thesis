@@ -384,7 +384,7 @@ The error messages are in this case often result of failed REST API call. The er
 \texttt{AddVmDialog} is a React component that implements our dialog representing a virtual machine and its configurable properties. The component can be used either to create or to edit a virtual machine. The dialog variant is determined by a value from the Redux store. The create virtual machine variant renders most of the fields empty, except special cases like cluster field where the pre-selected cluster is always the first cluster provided by the connected oVirt engine. Other fields like template, operating system, memory and cpu number are taken from the Blank template which is the default template for every cluster. The second variant is pre-filled with values from the virtual machine which is about to be edited as shown in the Figure \ref{editVMDialog}.
 
 \begin{figure}[h]
-\center{\scalebox{0.6}{\includegraphics{editVmDialog}}}
+\center{\includegraphics[width=8cm]{editVmDialog}}
 \caption{Dialog for editing virtual machines}
 \label{editVMDialog}
 \end{figure}
