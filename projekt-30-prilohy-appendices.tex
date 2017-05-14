@@ -46,6 +46,7 @@ Note: Work done by this thesis have partially been included in oVirt 4.1 release
 
 \newpage
 \section{ManageIQ API variant installation - Fedora/Red Hat Enterprise Linux}
+The ManageIQ variant is accessible only via Google Chrome and it is required to run it from terminal with parameters \texttt{--disable-web-security -user-data-dir}. These parameters will disable all the security.
 \begin{enumerate}
 
 \item Copy the contents of the attached CD 
@@ -55,6 +56,6 @@ Note: Work done by this thesis have partially been included in oVirt 4.1 release
 \item Install yarn: \texttt{npm install yarn}
 \item Install and update all required project dependencies: \texttt{yarn install}
 \item Run oVirt-web-ui: \texttt{ENGINE\char`_URL=https://engine\char`_address yarn start} (change the url to your oVirt engine)
-\item Firefox window should automatically open with application, if not, url should be displayed in the output of terminal window
+\item From another terminal window/tab run \texttt{google-chrome --disable-web-security -user-data-dir} and type the url and port of the app (usually localhost:3000)
 
 \end{enumerate} 
